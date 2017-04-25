@@ -1,6 +1,8 @@
-package com.UI;
+package com.ncookie.ui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -22,6 +24,7 @@ public class RouterController {
     private JLabel apSSIDLabel;
     private JLabel apPWLabel;
 
+    private JButton apSwitch;
     private JButton editAPBtn;
 
 
@@ -29,6 +32,7 @@ public class RouterController {
     private JLabel leaseTimeLabel;
     private JTextField leaseTime;
 
+    private JButton dhcpSwitch;
     private JButton editDHCPBtn;
 
 
@@ -55,11 +59,4 @@ public class RouterController {
     private JButton addBlockingBtn;
     private JList blockList;
     private JScrollBar blockScroll;
-
-
-    JToggleButton toggleButton;
-
-
-    public RouterController() {
-    }
 }

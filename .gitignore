@@ -1,2 +1,4 @@
 .git/
 out/
+/ContactEditor/nbproject/private/
+/ContactEditor/build/
