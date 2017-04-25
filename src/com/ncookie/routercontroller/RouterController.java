@@ -1,16 +1,16 @@
-package com.ncookie.ui;
+package com.ncookie.routercontroller;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by ryu on 17. 4. 19.
  */
 public class RouterController {
     public JPanel mainPanel;
+
+    /* PANEL */
     private JPanel apPanel;
     private JPanel dhcpPanel;
     private JPanel connectingPanel;
@@ -59,4 +59,27 @@ public class RouterController {
     private JButton addBlockingBtn;
     private JList blockList;
     private JScrollBar blockScroll;
+
+
+    /* STATE */
+    private JScrollBar showStateScroll;
+    private JPanel showStatePanel;
+    private JList showStateList;
+
+    private JLabel buttonIcon;
+    private JTextField routerName;
+    private JButton btnEditRouterName;
+    private JLabel routerNameLabel;
+    private JPanel routerStatePanel;
+
+    public RouterController() {
+        buttonIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                System.out.println("Hello World");
+            }
+        });
+    }
 }
