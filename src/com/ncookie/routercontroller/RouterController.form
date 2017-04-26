@@ -294,8 +294,8 @@
             </constraints>
             <properties>
               <focusCycleRoot value="false"/>
-              <icon value="com/ncookie/routercontroller/toggle-on.png"/>
-              <inheritsPopupMenu value="false"/>
+              <icon value="com/ncookie/routercontroller/toggle-off.png"/>
+              <inheritsPopupMenu value="true"/>
               <text value=""/>
             </properties>
           </component>

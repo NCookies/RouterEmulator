@@ -91,6 +91,16 @@ public class RouterController {
 
     public RouterController(Router router) {
         $$$setupUI$$$();
+
+        routerName.setText(router.getRouterName()); // router 이름 설정
+
+        apSSID.setText(router.getSSIDName());
+        apPW.setText(router.getPassword());
+
+        setEnabledButton(false);    // router의 전원을 켜기 전에는 비활성화
+        pushInfoMessage("버튼을 활성화하기 위해서는 공유기의 전원을 켜야합니다");
+
+        /* router 전원 on/off */
         buttonIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -109,15 +119,112 @@ public class RouterController {
 
                 if (!powerState) {  // router 의 전원이 꺼져 있다면
                     buttonIcon.setIcon(onIcon);
-                    stateModel.addElement("공유기의 전원을 켭니다");
+                    pushInfoMessage("공유기의 전원을 켭니다");
+                    setEnabledButton(true);
                 } else {    // 켜져 있으면
                     buttonIcon.setIcon(offIcon);
-                    stateModel.addElement("공유기의 전원을 끕니다");
+                    pushInfoMessage("공유기의 전원을 끕니다");
+                    setEnabledButton(false);
                 }
 
                 router.setPowerState(!powerState);  // router 의 전원 상태 변경
             }
         });
+
+        /* router 이름 변경 */
+        btnEditRouterName.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                String newName = routerName.getText();
+
+                router.setRouterName(newName);
+                pushInfoMessage("공유기의 이름이 [" + newName + "]으로 변경되었습니다");
+            }
+        });
+
+        /* ap 전원 on/off */
+        apSwitch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (!checkRouterOn(router.getPowerState())) return;
+                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
+
+                boolean apPowerState = router.getApPowerState();
+
+                if (!apPowerState) {
+                    apSwitch.setText("끄기");
+                    pushInfoMessage("AP의 전원을 끕니다");
+                } else {
+                    apSwitch.setText("켜기");
+                    pushInfoMessage("AP의 전원을 켭니다");
+                }
+
+                router.setApPowerState(!apPowerState);
+            }
+        });
+
+        /* ap 설정 변경 */
+        editAPBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (!checkRouterOn(router.getPowerState())) return;
+                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
+
+                String newSSID = apSSID.getText();
+                String newPassword = apPW.getText();
+
+                if (newSSID.equals(router.getSSIDName())
+                        && newPassword.equals(router.getPassword())) {
+                    pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
+                    return;
+                }
+
+                router.setSSIDName(newSSID);
+                router.setPassword(newPassword);
+
+                pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
+            }
+        });
+    }
+
+    /* router 의 전원에 따라 버튼들의 활성/비활성 */
+    public void setEnabledButton(boolean state) {
+        apSwitch.setEnabled(state);
+        editAPBtn.setEnabled(state);
+
+        dhcpSwitch.setEnabled(state);
+        editDHCPBtn.setEnabled(state);
+
+        addDeviceBtn.setEnabled(state);
+
+        addBlockingBtn.setEnabled(state);
+    }
+
+    private boolean checkRouterOn(boolean state) {
+        if (!state) {
+            pushErrorMessage("기능을 사용하기 위해서는 먼저 공유기의 전원을 켜주세요. 버튼은 우측 하단에 있습니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void pushInfoMessage(String msg) {
+        stateModel.addElement("[INFO] " + msg);
+    }
+
+    private void pushWarnMessage(String msg) {
+        stateModel.addElement("[WARN] " + msg);
+    }
+
+    private void pushErrorMessage(String msg) {
+        stateModel.addElement("[ERROR] " + msg);
     }
 
     private void createUIComponents() {
@@ -234,8 +341,8 @@ public class RouterController {
         mainPanel.add(routerStatePanel, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         buttonIcon = new JLabel();
         buttonIcon.setFocusCycleRoot(false);
-        buttonIcon.setIcon(new ImageIcon(getClass().getResource("/com/ncookie/routercontroller/toggle-on.png")));
-        buttonIcon.setInheritsPopupMenu(false);
+        buttonIcon.setIcon(new ImageIcon(getClass().getResource("/com/ncookie/routercontroller/toggle-off.png")));
+        buttonIcon.setInheritsPopupMenu(true);
         buttonIcon.setText("");
         routerStatePanel.add(buttonIcon, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, 1, 1, null, null, null, 0, false));
         routerNameLabel = new JLabel();
