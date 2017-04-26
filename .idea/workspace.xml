@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0ad1abc-b4de-4b01-8504-1d67443daecc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/RouterEmulator/Main.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ncookie/routercontroller/toggle-off.png" afterPath="$PROJECT_DIR$/src/com/ncookie/routercontroller/toggle-off.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ncookie/routercontroller/toggle-on.png" afterPath="$PROJECT_DIR$/src/com/ncookie/routercontroller/toggle-on.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.form" afterPath="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java" afterPath="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java" />
-    </list>
+    <list default="true" id="e0ad1abc-b4de-4b01-8504-1d67443daecc" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -144,8 +136,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="-1084" />
+    <option name="x" value="-1855" />
+    <option name="y" value="-4" />
     <option name="width" value="1855" />
     <option name="height" value="1084" />
   </component>
@@ -821,10 +813,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27342000" />
+    <option name="totallyTimeSpent" value="27403000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-1084" width="1855" height="1084" extended-state="6" />
+    <frame x="-1855" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="923" y="207" width="138" height="650" />
