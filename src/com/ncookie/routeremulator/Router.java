@@ -4,24 +4,31 @@
 package com.ncookie.routeremulator;
 
 import com.ncookie.origin.Equipment;
-import jdk.nashorn.internal.ir.Block;
+import com.ncookie.simulator.Device;
+import com.ncookie.simulator.DeviceManager;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Router extends Equipment {
 
     APManager apManager;
     DHCPServer dhcpServer;
+    DeviceManager deviceManager;
 
     public Router() {
-        apManager = new APManager(false, "G0170HS",
+        apManager = new APManager(false, true, "G0170HS",
                 "123456", 100);
 
-        dhcpServer = new DHCPServer();
+        dhcpServer = new DHCPServer(false,
+                new ArrayList<>(Arrays.asList("192.168.0.1", "192.168.0.254")),
+                8000 );
+
+        deviceManager = new DeviceManager();
     }
 
-    /* power state getter/setter */
+    /* AP power state */
     public boolean getApPowerState() {
         return apManager.isApState();
     }
@@ -30,8 +37,12 @@ public class Router extends Equipment {
         apManager.setApState(state);
     }
 
+    public void setPublicAP(boolean isSelected) {
+        apManager.setPublicAP(isSelected);
+    }
 
-    /* ap ssid getter/setter */
+
+    /* AP ssid */
     public String getSSIDName() {
         return apManager.getSSID();
     }
@@ -41,12 +52,46 @@ public class Router extends Equipment {
     }
 
 
-    /* ap password getter/setter */
+    /* AP password */
     public String getPassword() {
         return apManager.getPassword();
     }
 
     public void setPassword(String password) {
         apManager.setPassword(password);
+    }
+
+    /* 차단 사이트 설정 */
+    public void addBlockSite(String url) {
+        apManager.setBlockingSite(url);
+    }
+
+
+    /* DHCP power state */
+    public boolean getDhcpPowerState() {
+        return dhcpServer.isServerState();
+    }
+
+    public void setDhcpPowerState(boolean state) {
+        dhcpServer.setServerState(state);
+    }
+
+
+    /* DHCP lease time */
+    public int getDhcpLeaseTime() {
+        return dhcpServer.getIpLeaseTime();
+    }
+
+    public void setDhcpLeaseTime(int time) {
+        dhcpServer.setIpLeaseTime(time);
+    }
+
+    /* */
+    public void addDevice(String name, String ip, String mac) {
+        deviceManager.createDevice(name, ip, mac, true);
+    }
+
+    public ArrayList<Device> returnDeviceList() {
+        return deviceManager.getDeviceList();
     }
 }
