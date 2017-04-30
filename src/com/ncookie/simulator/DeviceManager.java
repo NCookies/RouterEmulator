@@ -8,14 +8,11 @@ import java.util.ArrayList;
 public class DeviceManager {
     private ArrayList<Device> deviceList;
     private int lastID = 0;
+    private boolean isWired;
 
-    public void createDevice(String name, String mac, String ip, boolean d) {
-        Device newDevice = new Device(lastID, name, mac, ip, d);
+    public void createDevice(String name, String mac, int ip, boolean isWired) {
+        Device newDevice = new Device(lastID, name, mac, ip, isWired);
         lastID++;
-    }
-
-    public void deleteDevice(int id) {
-
     }
 
     public ArrayList<Device> getDeviceList() {

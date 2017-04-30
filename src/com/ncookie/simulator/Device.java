@@ -7,15 +7,15 @@ public class Device {
     private int deviceID;
     private String pcName;
     private String macAddress;
-    private String ipAddress;
-    private boolean dynamicIP;
+    private int ipAddress;
+    private boolean isWired;
 
-    public Device(int deviceID, String pcName, String macAddress, String ipAddress, boolean dynamicIP) {
+    public Device(int deviceID, String pcName, String macAddress, int ip, boolean isWired) {
         this.deviceID = deviceID;
         this.pcName = pcName;
         this.macAddress = macAddress;
-        this.ipAddress = ipAddress;
-        this.dynamicIP = dynamicIP;
+        this.ipAddress = ip;
+        this.isWired = isWired;
     }
 
     public int getDeviceID() {
@@ -40,21 +40,5 @@ public class Device {
 
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public boolean isDynamicIP() {
-        return dynamicIP;
-    }
-
-    public void setDynamicIP(boolean dynamicIP) {
-        this.dynamicIP = dynamicIP;
     }
 }

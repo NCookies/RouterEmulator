@@ -21,9 +21,7 @@ public class Router extends Equipment {
         apManager = new APManager(false, true, "G0170HS",
                 "123456", 100);
 
-        dhcpServer = new DHCPServer(false,
-                new ArrayList<>(Arrays.asList("192.168.0.1", "192.168.0.254")),
-                8000 );
+        dhcpServer = new DHCPServer(false,1, 254,8000 );
 
         deviceManager = new DeviceManager();
     }
@@ -77,6 +75,15 @@ public class Router extends Equipment {
     }
 
 
+    /* DHCP IP Range */
+    public void setIpRagne(int min, int max) {
+        dhcpServer.setIpRange(min, max);
+    }
+
+    public int[] getIpRange() {
+        return dhcpServer.getIpRange();
+    }
+
     /* DHCP lease time */
     public int getDhcpLeaseTime() {
         return dhcpServer.getIpLeaseTime();
@@ -87,8 +94,8 @@ public class Router extends Equipment {
     }
 
     /* */
-    public void addDevice(String name, String ip, String mac) {
-        deviceManager.createDevice(name, ip, mac, true);
+    public void addDevice(String name, String mac, boolean isWired) {
+        deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired);
     }
 
     public ArrayList<Device> returnDeviceList() {

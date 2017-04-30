@@ -7,12 +7,15 @@ import java.util.ArrayList;
  */
 public class DHCPServer {
     private boolean serverState;
-    private ArrayList<String> addressRange;
+    private int minIP;
+    private int maxIP;
+    private int lastIP;
     private int ipLeaseTime;
 
-    public DHCPServer(boolean serverState, ArrayList<String> addressRange, int ipLeaseTime) {
+    public DHCPServer(boolean serverState, int minIP, int maxIP, int ipLeaseTime) {
         this.serverState = serverState;
-        this.addressRange = addressRange;
+        this.minIP = minIP;
+        this.maxIP = maxIP;
         this.ipLeaseTime = ipLeaseTime;
     }
 
@@ -24,12 +27,17 @@ public class DHCPServer {
         this.serverState = serverState;
     }
 
-    public ArrayList<String> getAddressRange() {
-        return addressRange;
+    public void setIpRange(int min, int max) {
+        minIP = min;
+        maxIP = max;
+
+        lastIP = min;
     }
 
-    public void setAddressRange(ArrayList<String> addressRange) {
-        this.addressRange = addressRange;
+    public int[] getIpRange() {
+        int[] a = {minIP, maxIP};
+
+        return a;
     }
 
     public int getIpLeaseTime() {
@@ -38,5 +46,9 @@ public class DHCPServer {
 
     public void setIpLeaseTime(int ipLeaseTime) {
         this.ipLeaseTime = ipLeaseTime;
+    }
+
+    public int getIP() {
+        return lastIP++;
     }
 }
