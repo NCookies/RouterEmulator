@@ -1,5 +1,7 @@
 package com.ncookie.routeremulator;
 
+import com.ncookie.simulator.Device;
+
 import java.util.ArrayList;
 
 /**
@@ -50,5 +52,9 @@ public class DHCPServer {
 
     public int getIP() {
         return lastIP++;
+    }
+
+    public int leaseIP(Device ) {
+
     }
 }

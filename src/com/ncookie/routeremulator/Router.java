@@ -17,6 +17,9 @@ public class Router extends Equipment {
     DHCPServer dhcpServer;
     DeviceManager deviceManager;
 
+    private final int cabledLimit = 4;
+    private final int wiredLimit = 8;
+
     public Router() {
         apManager = new APManager(false, true, "G0170HS",
                 "123456", 100);
@@ -93,12 +96,28 @@ public class Router extends Equipment {
         dhcpServer.setIpLeaseTime(time);
     }
 
-    /* */
-    public void addDevice(String name, String mac, boolean isWired) {
-        deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired);
+    /* 시뮬레이터를 위한 디바이스 생성 */
+    public boolean addDevice(String name, String mac, boolean isWired) {
+        // 새로 연결할 디바이스가 유선이고, 이미 포트가 꽉 차있다면
+        if (deviceManager.getCabledDevice() >= cabledLimit
+                || deviceManager.getWiredDevice() >= wiredLimit) {
+            return false;
+        }
+
+        deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired); // DHCP 서보로부터 남는 IP를 할당받음
+        return true;
     }
 
     public ArrayList<Device> returnDeviceList() {
         return deviceManager.getDeviceList();
+    }
+
+    /* 연결된 디바이스의 개수 */
+    public int countWiredDevice() {
+        return deviceManager.getWiredDevice();
+    }
+
+    public int countCabledDevice() {
+        return deviceManager.getCabledDevice();
     }
 }

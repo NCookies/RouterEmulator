@@ -5,9 +5,11 @@ import com.ncookie.routeremulator.Router;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -48,18 +50,26 @@ public class RouterController {
     private JLabel macAddressLabel;
 
     private JTextField deviceName;
-    private JTextField ipAddress;
     private JTextField macAddress;
+
+    private JRadioButton cabledDevice;
+    private JRadioButton wiredDevice;
 
     private JButton addDeviceBtn;
 
 
     /* CONNECTING */
-    private JLabel connectingState;
-    private JLabel countConnecting;
-    private JTable connectingDevice;
+    private JLabel cabledConnectingState;
+    private JLabel wiredConnectingState;
 
-    private DefaultTableModel connectingModel;
+    private JScrollPane cabledDeviceScroll;
+    private JTable cabledDeviceList;
+
+    private JScrollPane wiredDeviceScroll;
+    private JTable wiredDeviceList;
+
+    private DefaultTableModel cabledDeviceModel;
+    private DefaultTableModel wiredDeviceModel;
 
 
     /* BLOCK */
@@ -98,9 +108,6 @@ public class RouterController {
     private JCheckBox publicAP;
     private JTextField minIP;
     private JTextField maxIP;
-    private JRadioButton cabledDevice;
-    private JRadioButton wiredDevice;
-    private JScrollPane connectingDeviceScroll;
 
 
     public RouterController(Router router) {
@@ -183,12 +190,11 @@ public class RouterController {
                     apSwitch.setText("끄기");
                     apSwitch.setBackground(Color.green);
 
-//                    Timer t = new Timer();
-
                     pushInfoMessage("AP의 전원을 켭니다");
                 } else {
                     apSwitch.setText("켜기");
                     apSwitch.setBackground(Color.red);
+
                     pushInfoMessage("AP의 전원을 끕니다");
                 }
 
@@ -309,7 +315,25 @@ public class RouterController {
                 String newMacAddress = macAddress.getText();
                 boolean isWired = wiredDevice.isSelected();
 
-                router.addDevice(newDeviceName, newMacAddress, isWired);
+                if (router.addDevice(newDeviceName, newMacAddress, isWired)) {
+                    pushInfoMessage("새로운 디바이스를 연결하였습니다");
+                } else {
+                    pushErrorMessage("더 이상 디바이스를 추가할 수 없습니다");
+                }
+
+                int lastDevice = router.returnDeviceList().size() - 1;
+                String[] newDevice = router.returnDeviceList().get(lastDevice).getDeviceInfo();
+
+                if (isWired) {  // 무선 연결이면
+                    wiredDeviceModel.addRow(newDevice);
+                    wiredDevice.setSelected(false);
+                } else {    // 유선 연결이면
+                    cabledDeviceModel.addRow(newDevice);
+                    cabledDevice.setSelected(false);
+                }
+
+                deviceName.setText("");
+                macAddress.setText("");
             }
         });
 
@@ -407,10 +431,13 @@ public class RouterController {
         blockList = new JList(new DefaultListModel());
         blockUrlModel = (DefaultListModel) blockList.getModel();
 
-        Object[] columnNames = {"디바이스 이름", "IP 주소", "물리적 주소(MAC)", "유무선"};
+        Object[] columnNames = {"디바이스 이름", "IP 주소", "물리적 주소(MAC)"};
 
-        connectingModel = new DefaultTableModel(columnNames, 0);
-        connectingDevice = new JTable(connectingModel);
+        cabledDeviceModel = new DefaultTableModel(columnNames, 0);
+        cabledDeviceList = new JTable(cabledDeviceModel);
+
+        wiredDeviceModel = new DefaultTableModel(columnNames, 0);
+        wiredDeviceList = new JTable(wiredDeviceModel);
     }
 
     /**
@@ -497,20 +524,27 @@ public class RouterController {
         wiredDevice.setText("무선");
         devicePanel.add(wiredDevice, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         connectingPanel = new JPanel();
-        connectingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 4, new Insets(0, 0, 0, 0), -1, -1));
+        connectingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(connectingPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         connectingPanel.setBorder(BorderFactory.createTitledBorder("연결된 장치"));
-        connectingState = new JLabel();
-        connectingState.setText("/ 4");
-        connectingPanel.add(connectingState, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        connectingPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        countConnecting = new JLabel();
-        countConnecting.setText("");
-        connectingPanel.add(countConnecting, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
-        connectingDeviceScroll = new JScrollPane();
-        connectingPanel.add(connectingDeviceScroll, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        connectingDeviceScroll.setViewportView(connectingDevice);
+        cabledConnectingState = new JLabel();
+        cabledConnectingState.setText("");
+        connectingPanel.add(cabledConnectingState, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+        cabledDeviceScroll = new JScrollPane();
+        connectingPanel.add(cabledDeviceScroll, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        cabledDeviceScroll.setViewportView(cabledDeviceList);
+        final JLabel label3 = new JLabel();
+        label3.setText("유선");
+        connectingPanel.add(label3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label4 = new JLabel();
+        label4.setText("무선");
+        connectingPanel.add(label4, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        wiredConnectingState = new JLabel();
+        wiredConnectingState.setText("");
+        connectingPanel.add(wiredConnectingState, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+        wiredDeviceScroll = new JScrollPane();
+        connectingPanel.add(wiredDeviceScroll, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 1, false));
+        wiredDeviceScroll.setViewportView(wiredDeviceList);
         blockingPanel = new JPanel();
         blockingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 5, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(blockingPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
