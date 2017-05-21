@@ -14,22 +14,6 @@ import java.util.Date;
  */
 public class Router {
 
-    private APManager apManager;
-    private DHCPServer dhcpServer;
-    private DeviceManager deviceManager;
-
-    private final int cabledLimit = 4;
-    private final int wiredLimit = 8;
-
-    public Router() {
-        apManager = new APManager(false, true, "G0170HS",
-                "123456", 100);
-
-        dhcpServer = new DHCPServer(false,1, 254,8000 );
-
-        deviceManager = new DeviceManager();
-    }
-
     public static void main(String args[]) {
         ServerSocket serverSocket = null;
         Socket socket = null;

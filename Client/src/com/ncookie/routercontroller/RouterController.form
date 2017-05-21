@@ -366,11 +366,11 @@
         <children>
           <component id="2f74a" class="javax.swing.JLabel" binding="buttonIcon">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="1" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="1" anchor="0" fill="0" indent="2" use-parent-layout="false"/>
             </constraints>
             <properties>
               <focusCycleRoot value="false"/>
-              <icon value="com/ncookie/routercontroller/toggle-off.png"/>
+              <icon value="com/ncookie/routercontroller/toggle-on.png"/>
               <inheritsPopupMenu value="true"/>
               <text value=""/>
             </properties>

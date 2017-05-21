@@ -1,6 +1,8 @@
 package com.ncookie.sock;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.Socket;
@@ -14,8 +16,9 @@ public class ControlSock {
     private Socket socket;
 
     private DataOutputStream out = null;
-
     private DataInputStream in = null;
+
+    private JSONParser parser = new JSONParser();
 
     public ControlSock(Socket sock) {
         this.socket = sock;
@@ -24,6 +27,7 @@ public class ControlSock {
 
     public void createJSONMessage(String msg, String value) {
         try {
+            in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
             JSONObject jsonObject = new JSONObject();
@@ -36,37 +40,57 @@ public class ControlSock {
         }
     }
 
+    public String receiveJSONMessage() {
+        try {
+
+            while(in.available() == 0)  // 데이터를 받아올 때까지 대기
+            {
+                Thread.sleep(10);
+            }
+
+            Object obj = parser.parse(in.readUTF());
+            JSONObject jsonObject =(JSONObject) obj;
+
+            return jsonObject.get("value").toString();
+
+        } catch (IOException | ParseException | InterruptedException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     /* ROUTER state */
     public boolean getPowerState() {
 
         createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
 
-        try {
-            in = new DataInputStream(socket.getInputStream());
-            System.out.println();
+        return Boolean.valueOf(receiveJSONMessage());
 
-            System.out.println(in.readUTF());
-
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+//        try {
+//
+//            while(in.available() == 0)  // 데이터를 받아올 때까지 대기
+//            {
+//                Thread.sleep(10);
+//            }
+//
+//            Object obj = parser.parse(in.readUTF());
+//            JSONObject jsonObject =(JSONObject) obj;
+//
+//            return Boolean.valueOf(jsonObject.get("value").toString());
+//        } catch (IOException | ParseException | InterruptedException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
     }
 
     public void setPowerState(boolean powerState) {
         createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), String.valueOf(powerState));
-
-        try {
-            in = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getRouterName() {
-//        return routerName;
-        return "FUCK";
+        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
+
+        return receiveJSONMessage();
     }
 
     public void setRouterName(String routerName) {
