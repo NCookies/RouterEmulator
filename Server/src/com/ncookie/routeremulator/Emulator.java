@@ -1,25 +1,25 @@
-/**
- * Created by ryu on 17. 4. 25.
- */
 package com.ncookie.routeremulator;
 
 import com.ncookie.origin.Equipment;
+import com.ncookie.routeremulator.APManager;
+import com.ncookie.routeremulator.DHCPServer;
 import com.ncookie.simulator.Device;
 import com.ncookie.simulator.DeviceManager;
 
 import java.util.ArrayList;
 
-
-public class Router extends Equipment {
-
-    APManager apManager;
-    DHCPServer dhcpServer;
-    DeviceManager deviceManager;
+/**
+ * Created by ryu on 17. 5. 21.
+ */
+public class Emulator extends Equipment {
+    private APManager apManager;
+    private DHCPServer dhcpServer;
+    private DeviceManager deviceManager;
 
     private final int cabledLimit = 4;
     private final int wiredLimit = 8;
 
-    public Router() {
+    public Emulator() {
         apManager = new APManager(false, true, "G0170HS",
                 "123456", 100);
 
@@ -27,6 +27,7 @@ public class Router extends Equipment {
 
         deviceManager = new DeviceManager();
     }
+
 
     /* AP power state */
     public boolean getApPowerState() {

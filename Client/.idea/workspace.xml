@@ -23,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControlSock.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ControlSock.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ncookie/sock/ControlSock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="100" column="40" lean-forward="true" selection-start-line="100" selection-start-column="40" selection-end-line="100" selection-end-column="40" />
+            <state relative-caret-position="123">
+              <caret line="98" column="21" lean-forward="true" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -35,13 +35,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RouterController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RouterController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="174" column="0" lean-forward="true" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4909#5697#0" expanded="true" />
+                <element signature="e#5696#5697#0" expanded="true" />
+                <element signature="e#5759#6534#0" expanded="true" />
+                <element signature="e#6533#6534#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,6 +72,7 @@
       <find>getPowerState</find>
       <find>close</find>
       <find>종료</find>
+      <find>setpublicAP</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -81,9 +86,9 @@
         <option value="$PROJECT_DIR$/src/Sock.java" />
         <option value="$PROJECT_DIR$/src/ControlSock.java" />
         <option value="$PROJECT_DIR$/src/com/ncookie/routercontroller/sock/ControlSock.java" />
-        <option value="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java" />
         <option value="$PROJECT_DIR$/src/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.form" />
+        <option value="$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java" />
         <option value="$PROJECT_DIR$/src/com/ncookie/sock/ControlSock.java" />
       </list>
     </option>
@@ -743,12 +748,12 @@
       <updated>1495352182259</updated>
       <workItem from="1495352185024" duration="8690000" />
       <workItem from="1495366994916" duration="9000" />
-      <workItem from="1495367015248" duration="10933000" />
+      <workItem from="1495367015248" duration="12280000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19632000" />
+    <option name="totallyTimeSpent" value="20979000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1985" y="-1084" width="1855" height="1084" extended-state="6" />
@@ -817,6 +822,10 @@
           <caret line="123" column="39" lean-forward="false" selection-start-line="123" selection-start-column="39" selection-end-line="123" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4909#5697#0" expanded="true" />
+            <element signature="e#5696#5697#0" expanded="true" />
+            <element signature="e#5759#6534#0" expanded="true" />
+            <element signature="e#6533#6534#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -860,6 +869,10 @@
           <caret line="123" column="39" lean-forward="false" selection-start-line="123" selection-start-column="39" selection-end-line="123" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4909#5697#0" expanded="true" />
+            <element signature="e#5696#5697#0" expanded="true" />
+            <element signature="e#5759#6534#0" expanded="true" />
+            <element signature="e#6533#6534#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -890,14 +903,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Sock.java" />
-    <entry file="file://$PROJECT_DIR$/src/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ncookie/routercontroller/toggle-on.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -923,20 +928,32 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ncookie/sock/ControlSock.java">
+    <entry file="file://$PROJECT_DIR$/src/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="100" column="40" lean-forward="true" selection-start-line="100" selection-start-column="40" selection-end-line="100" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="563">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ncookie/routercontroller/RouterController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="174" column="0" lean-forward="true" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4909#5697#0" expanded="true" />
+            <element signature="e#5696#5697#0" expanded="true" />
+            <element signature="e#5759#6534#0" expanded="true" />
+            <element signature="e#6533#6534#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ncookie/sock/ControlSock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="98" column="21" lean-forward="true" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

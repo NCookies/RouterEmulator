@@ -173,57 +173,57 @@ public class RouterController {
             }
         });
 
-//        /* ap 전원 on/off */
-//        apSwitch.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                super.mouseClicked(e);
-//
-//                if (!checkRouterOn(router.getPowerState())) return;
-//                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
-//
-//                boolean apPowerState = router.getApPowerState();
-//
-//                if (!apPowerState) {
-//                    apSwitch.setText("끄기");
-//                    apSwitch.setBackground(Color.green);
-//
-//                    pushInfoMessage("AP의 전원을 켭니다");
-//                } else {
-//                    apSwitch.setText("켜기");
-//                    apSwitch.setBackground(Color.red);
-//
-//                    pushInfoMessage("AP의 전원을 끕니다");
-//                }
-//
-//                router.setApPowerState(!apPowerState);
-//            }
-//        });
-//
-//        /* ap 설정 변경 */
-//        editAPBtn.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                super.mouseClicked(e);
-//
-//                if (!checkRouterOn(router.getPowerState())) return;
-//                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
-//
-//                String newSSID = apSSID.getText();
-//                String newPassword = apPW.getText();
-//
-//                if (newSSID.equals(router.getSSIDName())
-//                        && newPassword.equals(router.getPassword())) {
-//                    pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
-//                    return;
-//                }
-//
-//                router.setSSIDName(newSSID);
-//                router.setPassword(newPassword);
-//
-//                pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
-//            }
-//        });
+        /* ap 전원 on/off */
+        apSwitch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (!checkRouterOn(router.getPowerState())) return;
+                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
+
+                boolean apPowerState = router.getApPowerState();
+
+                if (!apPowerState) {
+                    apSwitch.setText("끄기");
+                    apSwitch.setBackground(Color.green);
+
+                    pushInfoMessage("AP의 전원을 켭니다");
+                } else {
+                    apSwitch.setText("켜기");
+                    apSwitch.setBackground(Color.red);
+
+                    pushInfoMessage("AP의 전원을 끕니다");
+                }
+
+                router.setApPowerState(!apPowerState);
+            }
+        });
+
+        /* ap 설정 변경 */
+        editAPBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (!checkRouterOn(router.getPowerState())) return;
+                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
+
+                String newSSID = apSSID.getText();
+                String newPassword = apPW.getText();
+
+                if (newSSID.equals(router.getSSIDName())
+                        && newPassword.equals(router.getPassword())) {
+                    pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
+                    return;
+                }
+
+                router.setSSIDName(newSSID);
+                router.setPassword(newPassword);
+
+                pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
+            }
+        });
 //
 //        /* DHCP 전원 on/off */
 //        dhcpSwitch.addMouseListener(new MouseAdapter() {

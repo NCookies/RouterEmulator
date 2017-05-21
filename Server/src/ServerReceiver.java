@@ -1,3 +1,4 @@
+import com.ncookie.routeremulator.Emulator;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -55,7 +56,6 @@ class ServerReceiver extends Thread {
 
                 // DataInputStream 에서 데이터를 가져오고 스트림을 비우는 시점은 in.read 인 듯
 
-
                 Object obj = parser.parse(in.readUTF());
                 JSONObject jsonObject =(JSONObject) obj;
 
@@ -78,6 +78,34 @@ class ServerReceiver extends Thread {
 
                     case "setRouterName":
                         emulator.setRouterName(message);
+                        break;
+
+                    case "getApPowerState":
+                        createJSONMessage("getApPowerState", String.valueOf(emulator.getApPowerState()));
+                        break;
+
+                    case "setApPowerState":
+                        emulator.setApPowerState(Boolean.valueOf(value));
+                        break;
+
+                    case "setPublicAP":
+                        emulator.setPublicAP(Boolean.valueOf(value));
+                        break;
+
+                    case "getSSIDName":
+                        createJSONMessage("getSSIDName", emulator.getSSIDName());
+                        break;
+
+                    case "setSSIDName":
+                        emulator.setSSIDName(value);
+                        break;
+
+                    case "getPassword":
+                        createJSONMessage("getPassword", emulator.getPassword());
+                        break;
+
+                    case "setPassword":
+                        emulator.setPassword(value);
                         break;
 
                     default:
