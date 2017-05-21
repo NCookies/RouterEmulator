@@ -13,38 +13,24 @@ public class ControlSock {
 
     private Socket socket;
 
-    private OutputStream os = null;
-    private DataOutputStream dos =null;
+    private DataOutputStream out = null;
 
-    private InputStream in;
-    private DataInputStream dis;
+    private DataInputStream in = null;
 
     public ControlSock(Socket sock) {
         this.socket = sock;
 
-        try {
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF("hello");
-
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            System.out.println(in.readUTF());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void createJSONMessage(String msg, String value) {
         try {
-            os = socket.getOutputStream();
-            dos = new DataOutputStream(os);
-//            in = socket.getInputStream();
-//            dis = new DataInputStream(in);
+            out = new DataOutputStream(socket.getOutputStream());
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("message", msg);
             jsonObject.put("value", value);
 
-            dos.writeUTF(jsonObject.toJSONString());
+            out.writeUTF(jsonObject.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,10 +42,10 @@ public class ControlSock {
         createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
 
         try {
-            in = socket.getInputStream();
-            dis = new DataInputStream(in);
+            in = new DataInputStream(socket.getInputStream());
+            System.out.println();
 
-            System.out.println(dis.readUTF());
+            System.out.println(in.readUTF());
 
             return true;
         } catch (IOException e) {
@@ -72,8 +58,7 @@ public class ControlSock {
         createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), String.valueOf(powerState));
 
         try {
-            in = socket.getInputStream();
-            dis = new DataInputStream(in);
+            in = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

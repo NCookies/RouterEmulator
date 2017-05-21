@@ -32,11 +32,6 @@ public class Controller {
             frame.setSize(1000, 750);
             frame.setVisible(true);
 
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } catch (ConnectException ce) {
             ce.printStackTrace();
         } catch (Exception e) {
