@@ -99,12 +99,12 @@ public class Router extends Equipment {
     /* 시뮬레이터를 위한 디바이스 생성 */
     public boolean addDevice(String name, String mac, boolean isWired) {
         // 새로 연결할 디바이스가 유선이고, 이미 포트가 꽉 차있다면
-        if (deviceManager.getCabledDevice() >= cabledLimit
-                || deviceManager.getWiredDevice() >= wiredLimit) {
-            return false;
-        }
+        if (!isWired && deviceManager.getCabledDevice() >= cabledLimit) return false;
+        else if (isWired && deviceManager.getWiredDevice() >= wiredLimit) return false;
 
-        deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired); // DHCP 서보로부터 남는 IP를 할당받음
+        // DHCP 서보로부터 남는 IP를 할당받음
+        dhcpServer.leaseIP(deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired));
+
         return true;
     }
 

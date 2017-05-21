@@ -315,10 +315,16 @@ public class RouterController {
                 String newMacAddress = macAddress.getText();
                 boolean isWired = wiredDevice.isSelected();
 
+                if (newDeviceName.equals("") || newMacAddress.equals("")) {
+                    pushErrorMessage("장치 이름 또는 맥 주소를 입력해주세요");
+                    return;
+                }
+
                 if (router.addDevice(newDeviceName, newMacAddress, isWired)) {
                     pushInfoMessage("새로운 디바이스를 연결하였습니다");
                 } else {
                     pushErrorMessage("더 이상 디바이스를 추가할 수 없습니다");
+                    return;
                 }
 
                 int lastDevice = router.returnDeviceList().size() - 1;

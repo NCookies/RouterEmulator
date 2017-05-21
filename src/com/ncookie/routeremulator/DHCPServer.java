@@ -19,6 +19,8 @@ public class DHCPServer {
         this.minIP = minIP;
         this.maxIP = maxIP;
         this.ipLeaseTime = ipLeaseTime;
+
+        this.lastIP = minIP;
     }
 
     public boolean isServerState() {
@@ -54,7 +56,8 @@ public class DHCPServer {
         return lastIP++;
     }
 
-    public int leaseIP(Device ) {
+    // IP 대여 및 타이머
+    public void leaseIP(Device d) {
 
     }
 }

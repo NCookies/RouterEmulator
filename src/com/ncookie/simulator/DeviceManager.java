@@ -13,7 +13,7 @@ public class DeviceManager {
     private static int cabledDevice = 0;    // 공유기에 무선으로 연결된 디바이스의 수
     private static int wiredDevice = 0;     // 공유기에 유선으로 연결된 디바이스의 수
 
-    public void createDevice(String name, String mac, int ip, boolean isWired) {
+    public Device createDevice(String name, String mac, int ip, boolean isWired) {
         Device newDevice = new Device(lastID, name, mac, ip, isWired);
         deviceList.add(newDevice);
 
@@ -23,6 +23,8 @@ public class DeviceManager {
             cabledDevice++;
         }
         lastID++;   // 기기의 ID를 할당하기 위해서 사용
+
+        return newDevice;
     }
 
     public ArrayList<Device> getDeviceList() {
