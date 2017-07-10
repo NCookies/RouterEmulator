@@ -1,7 +1,3 @@
-import com.ncookie.routeremulator.APManager;
-import com.ncookie.routeremulator.DHCPServer;
-import com.ncookie.simulator.DeviceManager;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,6 +8,20 @@ import java.util.Date;
 /**
  * Created by ryu on 17. 5. 21.
  */
+
+/*
+JAVA NIO
+1. 필요성
+    - 소켓에서 accept()와 read()를 할 때 쓰레드가 block 이 됨
+    - 그렇기 때문에 여러 개의 클라이언트를 동시에 처리하기 위해서는 멀티 프로세스, 멀티 쓰레드 등을 사용해야 함
+    - 하지만 자바에서는 많은 쓰레드를 돌리게 되면 과부하가 걸리게 됨
+    - 이 쓰레드들을 관리할 수 있다고 해도 context-switching 등의 문제 때문에 오버헤드가 발생
+2. 개념
+- Multiplexing
+- 쓰레드를 적게 사용하면서 실제로 멀티 쓰레드를 사용하는 것처럼 보이게 할 수 있음
+- 레스토랑에서의 웨이터에 비유할 수 있음: 모든 테이블마다 웨이터를 할당할 수는 없음. 대신 한 명의 웨이터가 여러 개의 테이블을 맡음(non-blocking)
+*/
+
 public class Router {
 
     public static void main(String args[]) {

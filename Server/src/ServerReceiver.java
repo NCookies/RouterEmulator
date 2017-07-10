@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-/**
+/*
  * Created by ryu on 17. 5. 21.
  */
 class ServerReceiver extends Thread {
@@ -49,7 +49,7 @@ class ServerReceiver extends Thread {
         while (true) {
             try {
 
-                while(in.available() == 0)  // 데이터를 받아올 때까지 대기
+                while (in.available() == 0)  // 데이터를 받아올 때까지 대기
                 {
                     Thread.sleep(10);
                 }
@@ -57,7 +57,7 @@ class ServerReceiver extends Thread {
                 // DataInputStream 에서 데이터를 가져오고 스트림을 비우는 시점은 in.read 인 듯
 
                 Object obj = parser.parse(in.readUTF());
-                JSONObject jsonObject =(JSONObject) obj;
+                JSONObject jsonObject = (JSONObject) obj;
 
                 String message = jsonObject.get("message").toString();
                 String value = jsonObject.get("value").toString();
@@ -120,11 +120,5 @@ class ServerReceiver extends Thread {
                 e.printStackTrace();
             }
         }
-
-//        try {
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 }
