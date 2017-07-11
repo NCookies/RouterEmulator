@@ -21,7 +21,6 @@ public class RouterController {
     private JPanel apPanel;
     private JPanel dhcpPanel;
     private JPanel connectingPanel;
-    private JPanel devicePanel;
     private JPanel blockingPanel;
 
 
@@ -42,13 +41,6 @@ public class RouterController {
     private JButton dhcpSwitch;
     private JButton editDHCPBtn;
 
-
-    /* ADD DEVICE */
-    private JLabel deviceNameLabel;
-    private JLabel macAddressLabel;
-
-    private JTextField deviceName;
-    private JTextField macAddress;
 
     private JRadioButton cabledDevice;
     private JRadioButton wiredDevice;
@@ -80,9 +72,6 @@ public class RouterController {
     private DefaultListModel blockUrlModel;
 
 
-    /* STATE */
-    private JScrollPane showStateScroll;
-    private JPanel showStatePanel;
     private JList showStateList;
 
     private DefaultListModel stateModel; // model for JList
@@ -92,8 +81,6 @@ public class RouterController {
     private JLabel buttonIcon;
     private JTextField routerName;
     private JButton btnEditRouterName;
-    private JLabel routerNameLabel;
-    private JPanel routerStatePanel;
 
 
     /* ICON RESOURCE */
@@ -101,18 +88,16 @@ public class RouterController {
     private ImageIcon offIcon;
 
 
-    /* EXIT */
-    private JButton exitButton;
     private JCheckBox publicAP;
     private JTextField minIP;
     private JTextField maxIP;
+    private JPanel showStatePanel;
+    private JScrollPane showStateScroll;
 
 
     public RouterController(ControlSock router) {
         $$$setupUI$$$();
 
-//        routerName.setText(); // router 이름 설정
-        router.getRouterName();
         // 설정값 default 설정
 //        apSSID.setText(router.getSSIDName());
 //        apPW.setText(router.getPassword());
@@ -126,52 +111,7 @@ public class RouterController {
         dhcpSwitch.setBackground(Color.red);
         dhcpSwitch.setForeground(Color.white);
 
-        setEnabledButton(false);    // router의 전원을 켜기 전에는 비활성화
         pushInfoMessage("버튼을 활성화하기 위해서는 공유기의 전원을 켜야합니다");
-
-        /* router 전원 on/off */
-        buttonIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                try {
-                    onIcon = new ImageIcon(ImageIO.read(new File("./res/toggle-on.png")));
-                    offIcon = new ImageIcon(ImageIO.read(new File("./res/toggle-off.png")));
-
-                } catch (IOException err) {
-                    System.out.println(System.getProperty("user.dir"));
-                    err.printStackTrace();
-                }
-
-                boolean powerState = router.getPowerState();    // 현재 router 의 전원 상태
-
-                if (!powerState) {  // router 의 전원이 꺼져 있다면
-                    buttonIcon.setIcon(onIcon);
-                    pushInfoMessage("공유기의 전원을 켭니다");
-                    setEnabledButton(true);
-                } else {    // 켜져 있으면
-                    buttonIcon.setIcon(offIcon);
-                    pushInfoMessage("공유기의 전원을 끕니다");
-                    setEnabledButton(false);
-                }
-
-                router.setPowerState(!powerState);  // router 의 전원 상태 변경
-            }
-        });
-
-        /* router 이름 변경 */
-        btnEditRouterName.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                String newName = routerName.getText();
-
-                router.setRouterName(newName);
-                pushInfoMessage("공유기의 이름이 [" + newName + "]으로 변경되었습니다");
-            }
-        });
 
         /* ap 전원 on/off */
         apSwitch.addMouseListener(new MouseAdapter() {
@@ -399,10 +339,8 @@ public class RouterController {
         dhcpSwitch.setEnabled(state);
         editDHCPBtn.setEnabled(state);
 
-        cabledDevice.setEnabled(state);
-        wiredDevice.setEnabled(state);
-        addDeviceBtn.setEnabled(state);
-
+//        cabledDevice.setEnabled(state);
+//        wiredDevice.setEnabled(state);
         addBlockingBtn.setEnabled(state);
     }
 
@@ -504,29 +442,12 @@ public class RouterController {
         final JLabel label2 = new JLabel();
         label2.setText("~");
         dhcpPanel.add(label2, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        devicePanel = new JPanel();
-        devicePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(devicePanel, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        devicePanel.setBorder(BorderFactory.createTitledBorder("디바이스 추가"));
-        deviceNameLabel = new JLabel();
-        deviceNameLabel.setText("디바이스 이름");
-        devicePanel.add(deviceNameLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        deviceName = new JTextField();
-        devicePanel.add(deviceName, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        macAddressLabel = new JLabel();
-        macAddressLabel.setText("MAC 주소");
-        devicePanel.add(macAddressLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        macAddress = new JTextField();
-        devicePanel.add(macAddress, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         addDeviceBtn = new JButton();
         addDeviceBtn.setText("추가");
-        devicePanel.add(addDeviceBtn, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cabledDevice = new JRadioButton();
         cabledDevice.setText("유선");
-        devicePanel.add(cabledDevice, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 2, false));
         wiredDevice = new JRadioButton();
         wiredDevice.setText("무선");
-        devicePanel.add(wiredDevice, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         connectingPanel = new JPanel();
         connectingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(connectingPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -571,27 +492,15 @@ public class RouterController {
         showStatePanel.add(showStateScroll, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         showStateList.setFocusCycleRoot(false);
         showStateScroll.setViewportView(showStateList);
-        routerStatePanel = new JPanel();
-        routerStatePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(routerStatePanel, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         buttonIcon = new JLabel();
         buttonIcon.setFocusCycleRoot(false);
         buttonIcon.setIcon(new ImageIcon(getClass().getResource("/com/ncookie/routercontroller/toggle-off.png")));
         buttonIcon.setInheritsPopupMenu(true);
         buttonIcon.setText("");
-        routerStatePanel.add(buttonIcon, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, 1, 1, null, null, null, 0, false));
-        routerNameLabel = new JLabel();
-        routerNameLabel.setText("공유기 이름 : ");
-        routerStatePanel.add(routerNameLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         routerName = new JTextField();
         routerName.setText("");
-        routerStatePanel.add(routerName, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnEditRouterName = new JButton();
         btnEditRouterName.setText("변경");
-        routerStatePanel.add(btnEditRouterName, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        exitButton = new JButton();
-        exitButton.setText("종료");
-        routerStatePanel.add(exitButton, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ButtonGroup buttonGroup;
         buttonGroup = new ButtonGroup();
         buttonGroup.add(cabledDevice);

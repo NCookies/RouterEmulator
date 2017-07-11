@@ -1,6 +1,6 @@
 CC = g++
 TARGET = server
-OBJECTS = Objects/main.o Objects/connectionservice.o Objects/serverstarter.o Objects/eventservice.o
+OBJECTS = Objects/main.o Objects/connectionservice.o Objects/serverstarter.o Objects/eventservice.o Objects/jsoncpp.o
 OPTIONS = -std=c++14 -lpthread
 FLAGS = -c -o
 
@@ -21,6 +21,8 @@ Objects/eventservice.o : Sources/eventservice.cpp
 Objects/serverstarter.o : Sources/serverstarter.cpp
 	$(CC) $(FLAGS) Objects/serverstarter.o Sources/serverstarter.cpp $(OPTIONS)
 
+Objects/jsoncpp.o : Sources/jsoncpp.cpp
+	$(CC) $(FLAGS) Objects/jsoncpp.o Sources/jsoncpp.cpp $(OPTIONS)
 
 
 clr :

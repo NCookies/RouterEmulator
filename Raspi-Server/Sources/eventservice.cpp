@@ -71,7 +71,8 @@ void EventService::loop() {
                         FD_CLR(i, client_fds);
                         std::cout << "FD " << i << " is closed" << std::endl;
                     } else {
-                        std::cout << "hello " << temp_buff << std::endl;
+                        // JSON 파싱
+                        std::cout << temp_buff << std::endl;
                     }
 
                 }

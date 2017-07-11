@@ -44,7 +44,6 @@ public class ControlSock {
 
             buffWriter.write(jsonObject.toJSONString() + "\r\n");
             buffWriter.flush();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,27 +67,6 @@ public class ControlSock {
             return "";
         }
     }
-
-    /* ROUTER state */
-    public boolean getPowerState() {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
-        return Boolean.valueOf(receiveJSONMessage());
-    }
-
-    public void setPowerState(boolean powerState) {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), String.valueOf(powerState));
-    }
-
-    public String getRouterName() {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
-//        return receiveJSONMessage();
-        return "";
-    }
-
-    public void setRouterName(String routerName) {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), routerName);
-    }
-
 
     /* AP power state */
     public boolean getApPowerState() {
@@ -159,22 +137,6 @@ public class ControlSock {
 //
 //    public void setDhcpLeaseTime(int time) {
 //        dhcpServer.setIpLeaseTime(time);
-//    }
-//
-//    /* 시뮬레이터를 위한 디바이스 생성 */
-//    public boolean addDevice(String name, String mac, boolean isWired) {
-//        // 새로 연결할 디바이스가 유선이고, 이미 포트가 꽉 차있다면
-//        if (!isWired && deviceManager.getCabledDevice() >= cabledLimit) return false;
-//        else if (isWired && deviceManager.getWiredDevice() >= wiredLimit) return false;
-//
-//        // DHCP 서보로부터 남는 IP를 할당받음
-//        dhcpServer.leaseIP(deviceManager.createDevice(name, mac, dhcpServer.getIP(), isWired));
-//
-//        return true;
-//    }
-//
-//    public ArrayList<Device> returnDeviceList() {
-//        return deviceManager.getDeviceList();
 //    }
 //
 //    /* 연결된 디바이스의 개수 */
