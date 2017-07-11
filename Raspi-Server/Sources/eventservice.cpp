@@ -70,8 +70,8 @@ void EventService::loop() {
                         FD_CLR(i, client_fds);
                         std::cout << "FD " << i << " is closed" << std::endl;
                     }
+                    std::cout << "hello " << temp_buffer << std::endl;
 
-                    std::cout << temp_buffer << std::endl;
                 }
             }
         }

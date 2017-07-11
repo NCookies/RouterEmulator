@@ -78,8 +78,8 @@ void ConnectionService::loop() {
             }
 
             inet_ntop(AF_INET, &client_desc.sin_addr.s_addr, client_ipaddr, sizeof(client_ipaddr));
-            std::cout << "Server: " << client_ipaddr << " client connected -->"
-                << client_fd << "   maxfd : " << max_fd << std::endl;
+            std::cout << "Server: " << client_ipaddr << " client connected --> "
+			<< client_fd << "   maxfd : " << max_fd << std::endl;
         }
     }
 }
