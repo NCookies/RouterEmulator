@@ -111,8 +111,8 @@ public class RouterController {
     public RouterController(ControlSock router) {
         $$$setupUI$$$();
 
-        routerName.setText(router.getRouterName()); // router 이름 설정
-
+//        routerName.setText(); // router 이름 설정
+        router.getRouterName();
         // 설정값 default 설정
 //        apSSID.setText(router.getSSIDName());
 //        apPW.setText(router.getPassword());

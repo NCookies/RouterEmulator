@@ -15,26 +15,36 @@ public class ControlSock {
 
     private Socket socket;
 
-    private DataOutputStream out = null;
-    private DataInputStream in = null;
+    private DataOutputStream out;
+    private DataInputStream in;
 
-    private JSONParser parser = new JSONParser();
+    private JSONParser parser;
 
     public ControlSock(Socket sock) {
         this.socket = sock;
 
+        out = null;
+        in = null;
+
+        parser = new JSONParser();
     }
+
 
     public void createJSONMessage(String msg, String value) {
         try {
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
+//            in = new DataInputStream(socket.getInputStream());
+//            out = new DataOutputStream(socket.getOutputStream());
+            OutputStream os = socket.getOutputStream();
+            OutputStreamWriter osWriter = new OutputStreamWriter(os);
+            BufferedWriter buffWriter = new BufferedWriter(osWriter);
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("message", msg);
             jsonObject.put("value", value);
 
-            out.writeUTF(jsonObject.toJSONString());
+            buffWriter.write(jsonObject.toJSONString() + "\r\n");
+            buffWriter.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +59,7 @@ public class ControlSock {
             }
 
             Object obj = parser.parse(in.readUTF());
-            JSONObject jsonObject =(JSONObject) obj;
+            JSONObject jsonObject = (JSONObject) obj;
 
             return jsonObject.get("value").toString();
 
@@ -71,7 +81,8 @@ public class ControlSock {
 
     public String getRouterName() {
         createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
-        return receiveJSONMessage();
+//        return receiveJSONMessage();
+        return "";
     }
 
     public void setRouterName(String routerName) {

@@ -60,17 +60,19 @@ void EventService::loop() {
         for (register int i = 0; i < *max_fd + 1; ++i) {
             if (FD_ISSET(i, &temp_fds)) {
                 if (i != *server_fd) {
-                    char temp_buffer[max_buff_size];
-                    memset(temp_buffer, 0x00, sizeof(temp_buffer));
-                    ssize_t size = recv(i, &temp_buffer, max_buff_size, 0);
+                    char temp_buff[max_buff_size] = { 0 };
+                    memset(temp_buff, 0x00, sizeof(temp_buff));
+                    ssize_t size = read(i, &temp_buff, max_buff_size);
+
                     if (size <= 0) {    // 값을 정상적으로 받아오지 못했음
                         if (i >= *max_fd) {
                             *max_fd = i - 1;
                         }
                         FD_CLR(i, client_fds);
                         std::cout << "FD " << i << " is closed" << std::endl;
+                    } else {
+                        std::cout << "hello " << temp_buff << std::endl;
                     }
-                    std::cout << "hello " << temp_buffer << std::endl;
 
                 }
             }
