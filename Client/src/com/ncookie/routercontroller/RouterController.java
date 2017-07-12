@@ -1,15 +1,12 @@
 package com.ncookie.routercontroller;
 
-import com.ncookie.sock.ControlSock;
+import com.ncookie.network.ControlSock;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by ryu on 17. 4. 19.
@@ -111,16 +108,11 @@ public class RouterController {
         dhcpSwitch.setBackground(Color.red);
         dhcpSwitch.setForeground(Color.white);
 
-        pushInfoMessage("버튼을 활성화하기 위해서는 공유기의 전원을 켜야합니다");
-
         /* ap 전원 on/off */
         apSwitch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                if (!checkRouterOn(router.getPowerState())) return;
-                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
 
                 boolean apPowerState = router.getApPowerState();
 
@@ -146,7 +138,7 @@ public class RouterController {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if (!checkRouterOn(router.getPowerState())) return;
+//                if (!checkRouterOn(router.getPowerState())) return;
                 // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
 
                 String newSSID = apSSID.getText();
@@ -344,14 +336,6 @@ public class RouterController {
         addBlockingBtn.setEnabled(state);
     }
 
-    private boolean checkRouterOn(boolean state) {
-        if (!state) {
-            pushErrorMessage("기능을 사용하기 위해서는 먼저 공유기의 전원을 켜주세요. 버튼은 우측 하단에 있습니다.");
-            return false;
-        }
-
-        return true;
-    }
 
     private void pushInfoMessage(String msg) {
         stateModel.addElement("[INFO] " + msg);

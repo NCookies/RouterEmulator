@@ -1,4 +1,4 @@
-package com.ncookie.sock;
+package com.ncookie.network;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,8 +32,6 @@ public class ControlSock {
 
     public void createJSONMessage(String msg, String value) {
         try {
-//            in = new DataInputStream(socket.getInputStream());
-//            out = new DataOutputStream(socket.getOutputStream());
             OutputStream os = socket.getOutputStream();
             OutputStreamWriter osWriter = new OutputStreamWriter(os);
             BufferedWriter buffWriter = new BufferedWriter(osWriter);
@@ -42,7 +40,7 @@ public class ControlSock {
             jsonObject.put("message", msg);
             jsonObject.put("value", value);
 
-            buffWriter.write(jsonObject.toJSONString() + "\r\n");
+            buffWriter.write(jsonObject.toJSONString() + "\n");
             buffWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,17 +50,22 @@ public class ControlSock {
     public String receiveJSONMessage() {
         try {
 
-            while(in.available() == 0)  // 데이터를 받아올 때까지 대기
-            {
-                Thread.sleep(10);
-            }
+            InputStream is = socket.getInputStream();
+            InputStreamReader isReader = new InputStreamReader(is);
+            BufferedReader buffReader = new BufferedReader(isReader);
 
-            Object obj = parser.parse(in.readUTF());
+            String result;
+
+            result = buffReader.readLine();
+
+            Object obj = parser.parse(result);
             JSONObject jsonObject = (JSONObject) obj;
+
+            System.out.println(jsonObject.get("value").toString());
 
             return jsonObject.get("value").toString();
 
-        } catch (IOException | ParseException | InterruptedException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
             return "";
         }

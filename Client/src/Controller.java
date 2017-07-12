@@ -1,8 +1,7 @@
 import com.ncookie.routercontroller.RouterController;
-import com.ncookie.sock.ControlSock;
+import com.ncookie.network.ControlSock;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 
@@ -40,26 +39,5 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-//        try {
-//            while (true) {
-//                // 소켓의 입력스트림을 얻는다.
-//                InputStream in = socket.getInputStream();
-//                dis = new DataInputStream(in);  // 기본형 단위로 처리하는 보조스트림
-//
-//                // 소켓으로 부터 받은 데이터를 출력한다.
-//                System.out.println("서버로부터 받은 메세지 : " + dis.readUTF());
-//                System.out.println("연결을 종료합니다.");
-//            }
-//        } catch (IOException ie) {
-//            ie.printStackTrace();
-//        }
-
-        // 스트림과 소켓을 닫는다.
-
-
     }
-
 }
