@@ -18,6 +18,7 @@
 
 #include <thread>
 
+#include "jsonservice.h"
 #include "defs.h"
 #include "service.h"
 
@@ -30,6 +31,8 @@ private:
 
     std::thread* worker_sink;
     bool is_running = false;
+
+    JsonService json_service;
 
 private:
     virtual void loop() override;

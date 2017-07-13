@@ -10,7 +10,7 @@ protected:
 	virtual void loop()	= 0; //loop for service
 
 public:
-	
+
 	virtual void initialize(
 		fd_set* client_sink,
 		int* server_fd,

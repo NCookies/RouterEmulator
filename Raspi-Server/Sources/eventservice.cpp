@@ -40,6 +40,13 @@ void EventService::loop() {
 	fd_set temp_fds;
 	int result_value;
 
+    char recv_buff[max_buff_size];
+    char send_buff[max_buff_size];
+
+    ssize_t recv_size;
+    ssize_t send_size;
+    // char client_ipaddr[16];
+
     while (is_running) {
         temp_fds = *client_fds;
 
@@ -60,25 +67,33 @@ void EventService::loop() {
         for (register int i = 0; i < *max_fd + 1; ++i) {
             if (FD_ISSET(i, &temp_fds)) {
                 if (i != *server_fd) {
-                    char temp_buff[max_buff_size] = { 0 };
-                    memset(temp_buff, 0x00, sizeof(temp_buff));
-                    ssize_t size = read(i, &temp_buff, max_buff_size);
+                    recv_buff[max_buff_size] = { 0 };
+                    memset(recv_buff, 0x00, sizeof(recv_buff));
+                    recv_size = read(i, &recv_buff, max_buff_size);
 
-                    if (size <= 0) {    // 값을 정상적으로 받아오지 못했음
+                    std::cout << "Received data from client : " << recv_buff << std::endl;
+
+                    if (recv_size <= 0) {    // 값을 정상적으로 받아오지 못했음
                         if (i >= *max_fd) {
                             *max_fd = i - 1;
                         }
                         FD_CLR(i, client_fds);
                         std::cout << "FD " << i << " is closed" << std::endl;
                     } else {
+                        // send_buff 초기화
+                        send_buff[max_buff_size] = { 0 };
+                        memset(send_buff, 0x00, sizeof(send_buff));
+
                         // JSON파싱
-
-                        std::cout << temp_buff << std::endl;
-                        write(i, temp_buff, size);  // 테스트를 위해 전송
+                        send_size = json_service.parse(recv_buff, recv_size, send_buff);
+                        std::cout << "Send data to client : " << send_buff << std::endl; 
+                        if (write(i, send_buff, send_size) < 0) {
+                            std::cout << strerror(errno) << std::endl;
+                        }
                     }
-
                 }
             }
         }
+        
     }
 }

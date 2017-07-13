@@ -12,6 +12,11 @@
         "initializer_list": "cpp",
         "new": "cpp",
         "type_traits": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "istream": "cpp",
+        "functional": "cpp",
+        "*.tcc": "cpp",
+        "cstddef": "cpp",
+        "ctime": "cpp"
     }
 }

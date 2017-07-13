@@ -1,5 +1,6 @@
 package com.ncookie.network;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,15 +31,40 @@ public class ControlSock {
     }
 
 
-    public void createJSONMessage(String msg, String value) {
+    private void createJSONMessage(String msg, String value) {
         try {
             OutputStream os = socket.getOutputStream();
             OutputStreamWriter osWriter = new OutputStreamWriter(os);
             BufferedWriter buffWriter = new BufferedWriter(osWriter);
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("message", msg);
-            jsonObject.put("value", value);
+
+            JSONObject header = new JSONObject();
+            header.put("src", "127.0.0.1");
+            header.put("dest", "127.0.0.1");
+            header.put("type", "req");
+
+            JSONObject seq = new JSONObject();
+            seq.put("cur", 0);
+            seq.put("end", 0);
+
+            JSONObject body = new JSONObject();
+            JSONArray subValues = new JSONArray();
+            // true | false 값을 문자열이 아닌 bool 값으로 보내기 위해
+            if (value.equals("true") || value.equals("false")) {
+                subValues.add(Boolean.valueOf(value));
+            } else {
+                subValues.add(value);
+            }
+
+            body.put("operation", msg);
+            body.put("subValues", subValues);
+
+            jsonObject.put("header", header);
+            jsonObject.put("seq", seq);
+            jsonObject.put("body", body);
+
+            System.out.println("Send data to server : " + jsonObject.toJSONString());
 
             buffWriter.write(jsonObject.toJSONString() + "\n");
             buffWriter.flush();
@@ -47,9 +73,10 @@ public class ControlSock {
         }
     }
 
-    public String receiveJSONMessage() {
+    // result 가 0(실패)일 때에는 어떻게 처리할 것인가
+    // return 값을 int 로 바꿔서 에러 코드로 처리해?
+    private String receiveJSONMessage() {
         try {
-
             InputStream is = socket.getInputStream();
             InputStreamReader isReader = new InputStreamReader(is);
             BufferedReader buffReader = new BufferedReader(isReader);
@@ -58,10 +85,29 @@ public class ControlSock {
 
             result = buffReader.readLine();
 
-            Object obj = parser.parse(result);
-            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println("Received data from server : " + result);
 
-            System.out.println(jsonObject.get("value").toString());
+            JSONObject jsonObject = (JSONObject) parser.parse(result);
+            JSONObject header = (JSONObject) jsonObject.get("header");
+            JSONObject body = (JSONObject) jsonObject.get("body");
+
+            if (!Boolean.valueOf(body.get("result").toString())) {
+                System.out.println("Result of response message is false");
+                return "";
+            }
+
+            if (header.get("type").toString().equals("res")) {    // 응답
+                switch (body.get("operation").toString()) {
+                    case "GET_AP_POWER":
+                        JSONArray subValues = (JSONArray) body.get("subValues");
+                        return subValues.get(0).toString();
+
+                    case "SET_AP_POWER":
+                        break;
+                }
+            } else if (header.get("header").toString().equals("rep")) {     // 업데이트
+
+            }
 
             return jsonObject.get("value").toString();
 
@@ -73,12 +119,12 @@ public class ControlSock {
 
     /* AP power state */
     public boolean getApPowerState() {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), "");
+        createJSONMessage("GET_AP_POWER", "");
         return Boolean.valueOf(receiveJSONMessage());
     }
 
     public void setApPowerState(boolean state) {
-        createJSONMessage(new Object(){}.getClass().getEnclosingMethod().getName(), String.valueOf(state));
+        createJSONMessage("SET_AP_POWER", String.valueOf(state));
     }
 
     public void setPublicAP(boolean isSelected) {

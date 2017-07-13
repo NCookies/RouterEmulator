@@ -1,7 +1,7 @@
 CC = g++
 TARGET = server
-OBJECTS = Objects/main.o Objects/connectionservice.o Objects/serverstarter.o Objects/eventservice.o Objects/jsoncpp.o
-OPTIONS = -std=c++14 -lpthread
+OBJECTS = Objects/main.o Objects/connectionservice.o Objects/serverstarter.o Objects/eventservice.o Objects/jsoncpp.o Objects/jsonservice.o Objects/equipment.o
+OPTIONS = -O -Wall -W -pedantic-errors -std=c++14 -lpthread
 FLAGS = -c -o
 
 
@@ -23,6 +23,12 @@ Objects/serverstarter.o : Sources/serverstarter.cpp
 
 Objects/jsoncpp.o : Sources/jsoncpp.cpp
 	$(CC) $(FLAGS) Objects/jsoncpp.o Sources/jsoncpp.cpp $(OPTIONS)
+
+Objects/jsonservice.o : Sources/jsonservice.cpp
+	$(CC) $(FLAGS) Objects/jsonservice.o Sources/jsonservice.cpp $(OPTIONS)
+
+Objects/equipment.o : Sources/equipment.cpp
+	$(CC) $(FLAGS) Objects/equipment.o Sources/equipment.cpp $(OPTIONS)
 
 
 clr :

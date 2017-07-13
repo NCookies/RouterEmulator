@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cstring>
+
+void foo(char *c)
+{
+    char b[] = "fuck you";
+    std::cout << c << std::endl;
+    std::cout << c[0] << std::endl;
+    strcpy(c, b);
+}
+
+int main(void)
+{
+    char a[1024] = "hello world";
+
+    foo(a);
+//    std::cout << &a << std::endl;
+//    std::cout << &a[0] << std::endl
+//
+    std::cout << a << std::endl;
+
+    return 0;
+}
