@@ -85,6 +85,8 @@ public class ControlSock {
 
             result = buffReader.readLine();
 
+            // Send data to client : {"body":{"operation":"SET_AP_POWER","result":true},"header":{"dest":"127.0.0.1","src":"127.0.0.1","type":"res"},"seq":{"cur":"0","end":"0"}}
+            // 서버에서 데이터는 보냈는데 출력이 되지 않음. readLine 문제인가?
             System.out.println("Received data from server : " + result);
 
             JSONObject jsonObject = (JSONObject) parser.parse(result);
@@ -93,38 +95,57 @@ public class ControlSock {
 
             if (!Boolean.valueOf(body.get("result").toString())) {
                 System.out.println("Result of response message is false");
-                return "";
+                return "fail";
             }
 
             if (header.get("type").toString().equals("res")) {    // 응답
-                switch (body.get("operation").toString()) {
+                String operation = body.get("operation").toString();
+
+                if (operation.substring(0, 3).equals("SET")) {  // SET 이 앞에 붙은 operation 의 res body 값은 result 밖에 없음
+                    if (Boolean.valueOf(body.get("result").toString()))  return "success";
+                    else    return "fail";
+                }
+
+                switch (operation) {
                     case "GET_AP_POWER":
                         JSONArray subValues = (JSONArray) body.get("subValues");
                         return subValues.get(0).toString();
-
-                    case "SET_AP_POWER":
-                        break;
                 }
             } else if (header.get("header").toString().equals("rep")) {     // 업데이트
 
+            } else {
+                System.out.println("잘못된 응답입니다");
+                return "fail";
             }
-
-            return jsonObject.get("value").toString();
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-            return "";
+            return "fail";
         }
+
+        return "fail";
     }
 
     /* AP power state */
     public boolean getApPowerState() {
-        createJSONMessage("GET_AP_POWER", "");
-        return Boolean.valueOf(receiveJSONMessage());
+        String result;
+
+        // 먼저 요청을 보내고 result 가 0(실패)라면 다시 시도
+        do {
+            createJSONMessage("GET_AP_POWER", "");
+            result = receiveJSONMessage();
+        } while (result.equals("fail"));    // 리턴값이 fail 이면 루프
+
+        return Boolean.valueOf(result);
     }
 
     public void setApPowerState(boolean state) {
-        createJSONMessage("SET_AP_POWER", String.valueOf(state));
+        String result;
+
+        do {
+            createJSONMessage("SET_AP_POWER", String.valueOf(state));
+            result = receiveJSONMessage();
+        } while (result.equals("fail"));
     }
 
     public void setPublicAP(boolean isSelected) {

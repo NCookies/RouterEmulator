@@ -35,6 +35,7 @@ ssize_t JsonService::parse(char *json, ssize_t size, char *send_buff) {
         Equipment::set_ap_power_state(
             sub_values == "true" ? true : false);
 
+        body["operation"] = operation;
         body["result"] = true;
     } else if (operation == "GET_AP_POWER") {
         // AP 전원 상태 전송
@@ -71,10 +72,10 @@ std::string JsonService::create(Json::Value body) {
     root["header"]["dest"] = "127.0.0.1";
     root["header"]["type"] = "res";
 
+    root["body"] = body;
+
     root["seq"]["cur"] = "0";
     root["seq"]["end"] = "0";
-
-    root["body"] = body;
 
     Json::FastWriter writer;
     return writer.write(root);
