@@ -2,6 +2,7 @@
 #define _EQUIPMENT_H
 
 #include <iostream>
+#include <vector>
 #include <string>
 #include <cstdlib>
 #include <cerrno>
@@ -19,7 +20,8 @@ public:
     static bool get_ap_power_state();
 
     static void set_ap_settings(std::string ssid, std::string password);
-    static char (*get_ap_settings(void))[100];
+//    static char (*get_ap_settings(void))[100];
+    static std::vector<std::string> get_ap_settings();
 };
 
 #endif

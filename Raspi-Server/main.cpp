@@ -1,5 +1,4 @@
 #include "Headers/serverstarter.h"
-#include "Headers/jsonservice.h"
 
 // Usage ./[Executable File Name] [Port Number]
 int main(int argc, char** argv)
@@ -10,10 +9,6 @@ int main(int argc, char** argv)
     }
 
     int port = atoi(argv[1]);
-
-    char (*arr)[100];
-    arr = Equipment::get_ap_settings();
-    std::cout << arr << std::endl;
 
     ServerStarter starter;
     starter.initialize(port);

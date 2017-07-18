@@ -144,14 +144,14 @@ public class RouterController {
                 String newSSID = apSSID.getText();
                 String newPassword = apPW.getText();
 
-                if (newSSID.equals(router.getSSIDName())
-                        && newPassword.equals(router.getPassword())) {
+                String settings [] = router.getApSettings();
+                if (newSSID.equals(settings[0])
+                        && newPassword.equals(settings[1])) {
                     pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
                     return;
                 }
 
-                router.setSSIDName(newSSID);
-                router.setPassword(newPassword);
+                router.setApSettings(newSSID, newPassword);
 
                 pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
             }

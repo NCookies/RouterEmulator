@@ -41,6 +41,8 @@ service.h
 /home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/equipment.h
 iostream
 -
+vector
+-
 string
 -
 cstdlib
@@ -291,6 +293,4 @@ float.h
 /home/ryu/Projects/RouterEmulator/Raspi-Server/main.cpp
 Headers/serverstarter.h
 /home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/serverstarter.h
-Headers/jsonservice.h
-/home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/jsonservice.h
 

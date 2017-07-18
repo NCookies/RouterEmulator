@@ -9,11 +9,21 @@ void foo(char *c)
     strcpy(c, b);
 }
 
+char (*str_array())[50] {
+    static char arr[][50] = {"hello", "world"};
+
+    return arr;
+}
+
 int main(void)
 {
     char a[1024] = "hello world";
 
-    foo(a);
+//    foo(a);
+    char (*arr)[50];
+
+    arr = str_array();
+    std::cout << arr[0] << std::endl;
 //    std::cout << &a << std::endl;
 //    std::cout << &a[0] << std::endl
 //
@@ -21,3 +31,4 @@ int main(void)
 
     return 0;
 }
+

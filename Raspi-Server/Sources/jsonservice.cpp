@@ -56,17 +56,13 @@ ssize_t JsonService::parse(char *json, char *send_buff) {
         body["result"] = true;
     } else if (operation == "GET_AP_SETTINGS") {
         // AP 설정(SSID, PASSWORD) 전송
-        char (*settings)[100];
-        settings = Equipment::get_ap_settings();
-
-        std::cout << settings[0] << std::endl;
-        std::cout << settings[1] << std::endl;
+        std::vector<std::string> settings = Equipment::get_ap_settings();
 
         result = true;
 
         body["operation"] = operation;
-        // body["subValues"].append();
-        // body["subValues"].append();
+        body["subValues"].append(settings[0]);
+        body["subValues"].append(settings[1]);
         body["result"] = result;
     }
 

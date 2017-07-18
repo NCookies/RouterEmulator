@@ -21,11 +21,19 @@ void Equipment::set_ap_settings(std::string ssid, std::string password) {
     Equipment::password = password;
 }
 
-// 배열 포인터
-char (*Equipment::get_ap_settings(void))[100] {
-    char settings[2][100] = {"hello", "world"};
-    return settings;
+std::vector<std::string> Equipment::get_ap_settings() {
+    std::vector<std::string> v_settings(2);
+    v_settings[0] = Equipment::ssid;
+    v_settings[1] = Equipment::password;
+
+    return v_settings;
 }
+
+// 배열 포인터
+//char (*get_ap_settings())[100]
+
+//static char settings[][100] = {"hello", "world"};
+//return settings;
 
 /*
 헤더가 겹칠 때
