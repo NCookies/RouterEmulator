@@ -13,14 +13,17 @@
 #include "defs.h"
 #include "json/json.h"
 
+
 class JsonService {
 private:
     std::string create(Json::Value body);
+    static std::map<std::string, int > operation_map;
 
 public:
     JsonService();
     ~JsonService();
 
+    static void initialize();
     ssize_t parse(char *json, char *send_buff);
 };
 

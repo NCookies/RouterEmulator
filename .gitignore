@@ -3,3 +3,8 @@ out/
 /ContactEditor/nbproject/private/
 /ContactEditor/build/
 Objects/
+
+# Raspi-Server configuration file
+.vscode
+cmake-build-debug/
+server

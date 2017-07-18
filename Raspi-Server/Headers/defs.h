@@ -8,4 +8,11 @@ enum ResultCode {
 	NOT_FOUND = 0
 };
 
+enum OperationCode {
+    SET_AP_POWER = 0,
+    GET_AP_POWER = 1,
+    SET_AP_SETTINGS = 2,
+    GET_AP_SETTINGS = 3
+};
+
 #endif

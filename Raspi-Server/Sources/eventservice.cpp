@@ -14,6 +14,8 @@ void EventService::initialize(fd_set* client_sink, int* server_fd, int*max_fd) {
     this->client_fds = client_sink;
     this->server_fd = server_fd;
     this->max_fd = max_fd;
+
+    JsonService::initialize();
 }
 
 void EventService::run() {

@@ -1,11 +1,21 @@
 #include "../Headers/jsonservice.h"
 
+
+std::map<std::string, int> JsonService::operation_map;
+
 JsonService::JsonService() {
 
 }
 
 JsonService::~JsonService() {
 
+}
+
+void JsonService::initialize() {
+    JsonService::operation_map["SET_AP_POWER"] = SET_AP_POWER;
+    JsonService::operation_map["GET_AP_POWER"] = GET_AP_POWER;
+    JsonService::operation_map["SET_AP_SETTINGS"] = SET_AP_SETTINGS;
+    JsonService::operation_map["GET_AP_SETTINGS"] = GET_AP_SETTINGS;
 }
 
 ssize_t JsonService::parse(char *json, char *send_buff) {
@@ -26,45 +36,101 @@ ssize_t JsonService::parse(char *json, char *send_buff) {
     
     std::string operation = root["body"]["operation"].asString();
     std::string message;
-    
-    ssize_t str_size;
 
-    if (operation == "SET_AP_POWER") {
-        // AP 전원 설정
-        std::string power = sub_values[0].asString();
-        Equipment::set_ap_power_state(
-            power == "true" ? true : false);
+    switch (JsonService::operation_map[operation]) {
+        case SET_AP_POWER: {
+            // AP 전원 설정
+            std::string powerState = sub_values[0].asString();
+            Equipment::set_ap_power_state(powerState == "true");
 
-        body["operation"] = operation;
-        body["result"] = true;  // 에러가 생겼을 때 처리해야 함
-    } else if (operation == "GET_AP_POWER") {
-        // AP 전원 상태 전송
-        bool power = Equipment::get_ap_power_state();
-        result = true;
+            body["operation"] = operation;
+            body["result"] = true;  // 에러가 생겼을 때 처리해야 함
 
-        body["operation"] = operation;
-        body["subValues"].append(power);
-        body["result"] = result;
-    } else if (operation == "SET_AP_SETTINGS") {
-        // AP 설정(SSID, PASSWORD) 변경
-        std::string ssid = sub_values[0].asString();
-        std::string password = sub_values[1].asString();
+            break;
+        }
 
-        Equipment::set_ap_settings(ssid, password);
+        case GET_AP_POWER: {
+            // AP 전원 상태 전송
+            bool power = Equipment::get_ap_power_state();
+            result = true;
 
-        body["operation"] = operation;
-        body["result"] = true;
-    } else if (operation == "GET_AP_SETTINGS") {
-        // AP 설정(SSID, PASSWORD) 전송
-        std::vector<std::string> settings = Equipment::get_ap_settings();
+            body["operation"] = operation;
+            body["subValues"].append(power);
+            body["result"] = result;
 
-        result = true;
+            break;
+        }
 
-        body["operation"] = operation;
-        body["subValues"].append(settings[0]);
-        body["subValues"].append(settings[1]);
-        body["result"] = result;
+
+        case SET_AP_SETTINGS: {
+            // AP 설정(SSID, PASSWORD) 변경
+            std::string ssid = sub_values[0].asString();
+            std::string password = sub_values[1].asString();
+
+            Equipment::set_ap_settings(ssid, password);
+
+            body["operation"] = operation;
+            body["result"] = true;
+
+            break;
+        }
+
+        case GET_AP_SETTINGS: {
+            // AP 설정(SSID, PASSWORD) 전송
+            std::vector<std::string> settings = Equipment::get_ap_settings();
+
+            result = true;
+
+            body["operation"] = operation;
+            body["subValues"].append(settings[0]);
+            body["subValues"].append(settings[1]);
+            body["result"] = result;
+
+            break;
+        }
+
+        default: {
+            body["result"] = false;
+            break;
+        }
     }
+
+//    if (operation == "SET_AP_POWER") {
+//        // AP 전원 설정
+//        std::string power = sub_values[0].asString();
+//        Equipment::set_ap_power_state(
+//            power == "true" ? true : false);
+//
+//        body["operation"] = operation;
+//        body["result"] = true;  // 에러가 생겼을 때 처리해야 함
+//    } else if (operation == "GET_AP_POWER") {
+//        // AP 전원 상태 전송
+//        bool power = Equipment::get_ap_power_state();
+//        result = true;
+//
+//        body["operation"] = operation;
+//        body["subValues"].append(power);
+//        body["result"] = result;
+//    } else if (operation == "SET_AP_SETTINGS") {
+//        // AP 설정(SSID, PASSWORD) 변경
+//        std::string ssid = sub_values[0].asString();
+//        std::string password = sub_values[1].asString();
+//
+//        Equipment::set_ap_settings(ssid, password);
+//
+//        body["operation"] = operation;
+//        body["result"] = true;
+//    } else if (operation == "GET_AP_SETTINGS") {
+//        // AP 설정(SSID, PASSWORD) 전송
+//        std::vector<std::string> settings = Equipment::get_ap_settings();
+//
+//        result = true;
+//
+//        body["operation"] = operation;
+//        body["subValues"].append(settings[0]);
+//        body["subValues"].append(settings[1]);
+//        body["result"] = result;
+//    }
 
     // json 메시지 생성
     message = this->create(body);
