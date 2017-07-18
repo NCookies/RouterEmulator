@@ -21,8 +21,8 @@ public class ControlSock {
 
     private JSONParser parser;
 
-    private final String [] success_message = {"SUCCESS"};
-    private final String [] fail_message = {"FAIL"};
+    private final String [] SUCCESS_MESSAGE = {"SUCCESS"};
+    private final String [] FAIL_MESSAGE = {"FAIL"};
 
     public ControlSock(Socket sock) {
         this.socket = sock;
@@ -99,15 +99,15 @@ public class ControlSock {
 
             if (!Boolean.valueOf(body.get("result").toString())) {
                 System.out.println("Result of response message is false");
-                return fail_message;
+                return FAIL_MESSAGE;
             }
 
             if (header.get("type").toString().equals("res")) {    // 응답
                 String operation = body.get("operation").toString();
 
                 if (operation.substring(0, 3).equals("SET")) {  // SET 이 앞에 붙은 operation 의 res body 값은 result 밖에 없음
-                    if (Boolean.valueOf(body.get("result").toString()))  return success_message;
-                    else    return fail_message;
+                    if (Boolean.valueOf(body.get("result").toString()))  return SUCCESS_MESSAGE;
+                    else    return FAIL_MESSAGE;
                 }
 
                 switch (operation) {
@@ -124,17 +124,17 @@ public class ControlSock {
                         return bodyMessage;
                 }
             } else if (header.get("header").toString().equals("rep")) {     // 업데이트
-
+                System.out.println("report");
             } else {
                 System.out.println("잘못된 응답입니다");
-                return fail_message;
+                return FAIL_MESSAGE;
             }
 
-            return fail_message;
+            return FAIL_MESSAGE;
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-            return fail_message;
+            return FAIL_MESSAGE;
         }
     }
 

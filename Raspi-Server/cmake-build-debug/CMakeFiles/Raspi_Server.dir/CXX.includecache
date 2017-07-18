@@ -177,6 +177,8 @@ connectionservice.h
 /home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/connectionservice.h
 eventservice.h
 /home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/eventservice.h
+jsonservice.h
+/home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/jsonservice.h
 
 /home/ryu/Projects/RouterEmulator/Raspi-Server/Headers/service.h
 sys/select.h

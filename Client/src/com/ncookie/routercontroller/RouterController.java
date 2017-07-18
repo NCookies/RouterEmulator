@@ -108,27 +108,43 @@ public class RouterController {
         dhcpSwitch.setBackground(Color.red);
         dhcpSwitch.setForeground(Color.white);
 
+        // 컨트롤러 초기 설정
+        {
+            boolean apPower = router.getApPowerState();
+            if (apPower) {
+                apSwitch.setText("끄기");
+                apSwitch.setBackground(Color.green);
+            } else {
+                apSwitch.setText("켜기");
+                apSwitch.setBackground(Color.red);
+            }
+
+            String settings[] = router.getApSettings();
+            apSSID.setText(settings[0]);
+            apPW.setText(settings[1]);
+        }
+
         /* ap 전원 on/off */
         apSwitch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            super.mouseClicked(e);
 
-                boolean apPowerState = router.getApPowerState();
+            boolean apPowerState = router.getApPowerState();
 
-                if (!apPowerState) {
-                    apSwitch.setText("끄기");
-                    apSwitch.setBackground(Color.green);
+            if (!apPowerState) {
+                apSwitch.setText("끄기");
+                apSwitch.setBackground(Color.green);
 
-                    pushInfoMessage("AP의 전원을 켭니다");
-                } else {
-                    apSwitch.setText("켜기");
-                    apSwitch.setBackground(Color.red);
+                pushInfoMessage("AP의 전원을 켭니다");
+            } else {
+                apSwitch.setText("켜기");
+                apSwitch.setBackground(Color.red);
 
-                    pushInfoMessage("AP의 전원을 끕니다");
-                }
+                pushInfoMessage("AP의 전원을 끕니다");
+            }
 
-                router.setApPowerState(!apPowerState);
+            router.setApPowerState(!apPowerState);
             }
         });
 
@@ -136,24 +152,21 @@ public class RouterController {
         editAPBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            super.mouseClicked(e);
 
-//                if (!checkRouterOn(router.getPowerState())) return;
-                // router 의 전원이 꺼져있으면 버튼이 동작하지 않게 함
+            String newSSID = apSSID.getText();
+            String newPassword = apPW.getText();
 
-                String newSSID = apSSID.getText();
-                String newPassword = apPW.getText();
+            String settings [] = router.getApSettings();
+            if (newSSID.equals(settings[0])
+                    && newPassword.equals(settings[1])) {
+                pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
+                return;
+            }
 
-                String settings [] = router.getApSettings();
-                if (newSSID.equals(settings[0])
-                        && newPassword.equals(settings[1])) {
-                    pushWarnMessage("기존의 값과 같습니다. 다시 입력해주세요.");
-                    return;
-                }
+            router.setApSettings(newSSID, newPassword);
 
-                router.setApSettings(newSSID, newPassword);
-
-                pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
+            pushInfoMessage("SSID와 비밀번호가 변경되었습니다");
             }
         });
 //

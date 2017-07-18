@@ -12,6 +12,7 @@
 
 #include "connectionservice.h"
 #include "eventservice.h"
+#include "jsonservice.h"
 
 
 class ServerStarter {

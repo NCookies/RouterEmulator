@@ -40,6 +40,8 @@ int ServerStarter::initialize(int port) {
     std::cout << "Initialize Connection Service..." << std::endl;
     connection_service.initialize(&client_fds, &server_fd, &max_fd);
     event_service.initialize(&client_fds, &server_fd, &max_fd);
+
+    JsonService::initialize();
 }
 
 void ServerStarter::start() {

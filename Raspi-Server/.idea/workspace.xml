@@ -35,14 +35,12 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="jsonservice.h" pinned="false" current-in-tab="true">
+          <file leaf-file-name="jsonservice.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Headers/jsonservice.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
-                  <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="52" />
-                  <folding>
-                    <element signature="e#47#66#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="160">
+                  <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -50,10 +48,22 @@
           <file leaf-file-name="equipment.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Headers/equipment.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="452">
-                  <caret line="24" column="2" lean-forward="true" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+                <state relative-caret-position="152">
+                  <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
                   <folding>
                     <element signature="e#43#62#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="serverstarter.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Headers/serverstarter.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="680">
+                  <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#51#70#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -66,8 +76,8 @@
           <file leaf-file-name="eventservice.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Sources/eventservice.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="340">
-                  <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+                <state relative-caret-position="592">
+                  <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -76,8 +86,8 @@
           <file leaf-file-name="jsonservice.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Sources/jsonservice.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="80">
-                  <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+                <state relative-caret-position="322">
+                  <caret line="100" column="0" lean-forward="true" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -101,13 +111,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/Headers/equipment.h" />
         <option value="$PROJECT_DIR$/Sources/equipment.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Headers/defs.h" />
-        <option value="$PROJECT_DIR$/Sources/eventservice.cpp" />
         <option value="$PROJECT_DIR$/Headers/jsonservice.h" />
+        <option value="$PROJECT_DIR$/Sources/eventservice.cpp" />
+        <option value="$PROJECT_DIR$/Sources/serverstarter.cpp" />
+        <option value="$PROJECT_DIR$/Headers/eventservice.h" />
+        <option value="$PROJECT_DIR$/Headers/equipment.h" />
         <option value="$PROJECT_DIR$/Sources/jsonservice.cpp" />
+        <option value="$PROJECT_DIR$/Headers/serverstarter.h" />
       </list>
     </option>
   </component>
@@ -405,12 +418,12 @@
       <updated>1500286910070</updated>
       <workItem from="1500286912726" duration="2301000" />
       <workItem from="1500296770617" duration="5398000" />
-      <workItem from="1500343017698" duration="9420000" />
+      <workItem from="1500343017698" duration="11192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17119000" />
+    <option name="totallyTimeSpent" value="18891000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-1091" width="1857" height="1092" extended-state="6" />
@@ -460,9 +473,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
           <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="e#47#66#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -516,16 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Headers/equipment.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="24" column="2" lean-forward="true" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
-          <folding>
-            <element signature="e#43#62#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -542,26 +543,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Headers/serverstarter.h">
+    <entry file="file://$PROJECT_DIR$/Headers/jsonservice.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Sources/serverstarter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-642">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Sources/eventservice.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="160">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -574,21 +559,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Headers/jsonservice.h">
+    <entry file="file://$PROJECT_DIR$/Headers/eventservice.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="52" />
+        <state relative-caret-position="340">
+          <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
           <folding>
-            <element signature="e#47#66#0" expanded="true" />
+            <element signature="e#234#255#0" expanded="false" />
+            <element signature="e#364#388#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Headers/equipment.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#43#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Sources/serverstarter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="43" column="30" lean-forward="true" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Sources/eventservice.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Sources/jsonservice.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="322">
+          <caret line="100" column="0" lean-forward="true" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Headers/serverstarter.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="e#51#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
