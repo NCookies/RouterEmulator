@@ -2,6 +2,30 @@
 
 // 생성자 호출 직전에 값이 변경됨
 bool Equipment::ap_power = false;
+std::string Equipment::ssid = "DEFAULT";
+std::string Equipment::password = "admin1234";
+
+
+// static은 붙이지 않음
+void Equipment::set_ap_power_state(bool state) {
+    Equipment::ap_power = state;
+    std::cout << Equipment::ssid;
+}
+
+bool Equipment::get_ap_power_state() {
+    return Equipment::ap_power;
+}
+
+void Equipment::set_ap_settings(std::string ssid, std::string password) {
+    Equipment::ssid = ssid;
+    Equipment::password = password;
+}
+
+// 배열 포인터
+char (*Equipment::get_ap_settings(void))[100] {
+    char settings[2][100] = {"hello", "world"};
+    return settings;
+}
 
 /*
 헤더가 겹칠 때
@@ -20,12 +44,13 @@ makefile:9: recipe for target 'server' failed
 make: *** [server] Error 1
 */
 
-// static은 붙이지 않음
-void Equipment::set_ap_power_state(bool state) {
-    Equipment::ap_power = state;
-}
+/*
+왜 오류가 발생하는지 모르곘음
 
-
-bool Equipment::get_ap_power_state() {
-    return Equipment::ap_power;
-}
+Sources/equipment.cpp: In function ‘char (* get_ap_settings())[100]’:
+Sources/equipment.cpp:5:13: error: ‘std::__cxx11::string Equipment::ssid’ is private
+ std::string Equipment::ssid = "DEFAULT";
+             ^
+Sources/equipment.cpp:39:40: error: within this context
+     char settings[][100] = {Equipment::ssid, Equipment::password};
+*/

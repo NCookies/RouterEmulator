@@ -8,7 +8,7 @@ JsonService::~JsonService() {
 
 }
 
-ssize_t JsonService::parse(char *json, ssize_t size, char *send_buff) {
+ssize_t JsonService::parse(char *json, char *send_buff) {
     Json::Reader reader;
     Json::Value root;  // 여기에 json을 파싱하기 위한 값이 저장됨
     std::string str(json);
@@ -21,35 +21,53 @@ ssize_t JsonService::parse(char *json, ssize_t size, char *send_buff) {
 
     // body 안에 들어갈 result와 subValues 값
     Json::Value body;
+    Json::Value sub_values = root["body"]["subValues"];
     bool result;
     
     std::string operation = root["body"]["operation"].asString();
-    std::string sub_values;
     std::string message;
     
     ssize_t str_size;
 
     if (operation == "SET_AP_POWER") {
         // AP 전원 설정
-        sub_values = root["body"]["subValues"][0].asString();
+        std::string power = sub_values[0].asString();
         Equipment::set_ap_power_state(
-            sub_values == "true" ? true : false);
+            power == "true" ? true : false);
 
         body["operation"] = operation;
-        body["result"] = true;
+        body["result"] = true;  // 에러가 생겼을 때 처리해야 함
     } else if (operation == "GET_AP_POWER") {
         // AP 전원 상태 전송
         bool power = Equipment::get_ap_power_state();
-
-        if (power) {
-            result = true;
-        } else {
-            result = false;
-        }
+        result = true;
 
         body["operation"] = operation;
         body["subValues"].append(power);
+        body["result"] = result;
+    } else if (operation == "SET_AP_SETTINGS") {
+        // AP 설정(SSID, PASSWORD) 변경
+        std::string ssid = sub_values[0].asString();
+        std::string password = sub_values[1].asString();
+
+        Equipment::set_ap_settings(ssid, password);
+
+        body["operation"] = operation;
         body["result"] = true;
+    } else if (operation == "GET_AP_SETTINGS") {
+        // AP 설정(SSID, PASSWORD) 전송
+        char (*settings)[100];
+        settings = Equipment::get_ap_settings();
+
+        std::cout << settings[0] << std::endl;
+        std::cout << settings[1] << std::endl;
+
+        result = true;
+
+        body["operation"] = operation;
+        // body["subValues"].append();
+        // body["subValues"].append();
+        body["result"] = result;
     }
 
     // json 메시지 생성

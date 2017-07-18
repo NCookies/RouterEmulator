@@ -1,6 +1,5 @@
 #include "Headers/serverstarter.h"
-#include "Headers/equipment.h"
-// #define BUFSIZE 100
+#include "Headers/jsonservice.h"
 
 // Usage ./[Executable File Name] [Port Number]
 int main(int argc, char** argv)
@@ -10,9 +9,11 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    std::cout << Equipment::get_ap_power_state() << std::endl;
-
     int port = atoi(argv[1]);
+
+    char (*arr)[100];
+    arr = Equipment::get_ap_settings();
+    std::cout << arr << std::endl;
 
     ServerStarter starter;
     starter.initialize(port);
@@ -21,8 +22,6 @@ int main(int argc, char** argv)
     getchar();
 
     starter.stop();
-
-
 
     /*
     // 소켓 관련 변수

@@ -15,17 +15,13 @@
 
 class JsonService {
 private:
-    std::string set_ap_power = "SET_AP_POWER";
-    std::string get_ap_power = "GET_AP_POWER";
-
-private:
     std::string create(Json::Value body);
 
 public:
     JsonService();
     ~JsonService();
 
-    ssize_t parse(char *json, ssize_t size, char *send_buff);
+    ssize_t parse(char *json, char *send_buff);
 };
 
 #endif

@@ -85,7 +85,7 @@ void EventService::loop() {
                         memset(send_buff, 0x00, sizeof(send_buff));
 
                         // JSON파싱
-                        send_size = json_service.parse(recv_buff, recv_size, send_buff);
+                        send_size = json_service.parse(recv_buff, send_buff);
                         std::cout << "Send data to client : " << send_buff << std::endl; 
                         if (write(i, send_buff, send_size) < 0) {
                             std::cout << strerror(errno) << std::endl;
