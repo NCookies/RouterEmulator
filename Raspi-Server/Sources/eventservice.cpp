@@ -35,16 +35,18 @@ void EventService::stop() {
 }
 
 void EventService::loop() {
-	// check connection of clients and get operation from clients
+    // check connection of clients and get operation from clients
     timeval timeout_desc;
-	fd_set temp_fds;
-	int result_value;
+    fd_set temp_fds;
+    int result_value;
 
     char recv_buff[max_buff_size];
-    char send_buff[max_buff_size];
+    char res_buff[max_buff_size];
+    char rep_buff[max_buff_size];
 
     ssize_t recv_size;
-    ssize_t send_size;
+    size_t res_send_size;
+    size_t rep_send_size;
     // char client_ipaddr[16];
 
     while (is_running) {
@@ -53,7 +55,7 @@ void EventService::loop() {
         timeout_desc.tv_sec = 2;
         timeout_desc.tv_usec = 0;
 
-        result_value = select(*max_fd + 1, &temp_fds, (fd_set *)NULL, (fd_set *)NULL, &timeout_desc);
+        result_value = select(*max_fd + 1, &temp_fds, (fd_set *) NULL, (fd_set *) NULL, &timeout_desc);
 
         if (result_value == ResultCode::ERROR_SOMETHING) {
             std::cout << "Error: Cannot checking select in ConnectionSerivce -> " << strerror(errno) << std::endl;
@@ -67,7 +69,7 @@ void EventService::loop() {
         for (register int i = 0; i < *max_fd + 1; ++i) {
             if (FD_ISSET(i, &temp_fds)) {
                 if (i != *server_fd) {
-                    recv_buff[max_buff_size] = { 0 };
+                    recv_buff[max_buff_size] = {0};
                     memset(recv_buff, 0x00, sizeof(recv_buff));
                     recv_size = read(i, &recv_buff, max_buff_size);
 
@@ -80,20 +82,38 @@ void EventService::loop() {
                         FD_CLR(i, client_fds);
                         std::cout << "FD " << i << " is closed" << std::endl;
                     } else {
-                        // send_buff 초기화
-                        send_buff[max_buff_size] = { 0 };
-                        memset(send_buff, 0x00, sizeof(send_buff));
+                        // 버퍼 초기화
+                        res_buff[max_buff_size] = {0};
+                        memset(res_buff, 0x00, sizeof(res_buff));
+
+                        rep_buff[max_buff_size] = {0};
+                        memset(rep_buff, 0x00, sizeof(rep_buff));
 
                         // JSON파싱
-                        send_size = json_service.parse(recv_buff, send_buff);
-                        std::cout << "Send data to client : " << send_buff << std::endl; 
-                        if (write(i, send_buff, send_size) < 0) {
+                        bool is_report =
+                                json_service.parse(recv_buff, res_buff, rep_buff, &res_send_size, &rep_send_size);
+
+                        if (write(i, res_buff, res_send_size) < 0) {
                             std::cout << strerror(errno) << std::endl;
                         }
+                        std::cout << "Send data to client : " << res_buff << std::endl;
+
+                        // 브로드캐스팅
+                        if (is_report) {
+                            for (register int j = 0; j < *max_fd + 1; ++j) {
+                                if (j != *server_fd && j != i) {
+                                    if (write(j, rep_buff, max_buff_size) < 0) {
+                                        std::cout << strerror(errno) << std::endl;
+                                    }
+                                    std::cout << "Send data to client : " << rep_buff << std::endl;
+                                }
+                            }
+                        }
                     }
+
                 }
             }
         }
-        
+
     }
 }

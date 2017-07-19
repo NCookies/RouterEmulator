@@ -16,7 +16,7 @@
 
 class JsonService {
 private:
-    std::string create(Json::Value body);
+    std::string create(Json::Value body, std::string flag);
     static std::map<std::string, int > operation_map;
 
 public:
@@ -24,7 +24,7 @@ public:
     ~JsonService();
 
     static void initialize();
-    ssize_t parse(char *json, char *send_buff);
+    bool parse(char *json, char *res_buff, char *rep_buff, size_t *res_buff_size, size_t *rep_buff_size);
 };
 
 #endif

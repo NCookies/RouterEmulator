@@ -9,11 +9,14 @@ int main(int argc, char** argv)
     }
 
     int port = atoi(argv[1]);
+    int ret = 1;
 
     ServerStarter starter;
-    starter.initialize(port);
-    starter.start();
 
+    while (ret){
+        ret = starter.initialize(port);
+        starter.start();
+    }
     getchar();
 
     starter.stop();
