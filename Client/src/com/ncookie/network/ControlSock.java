@@ -53,9 +53,7 @@ public class ControlSock {
 
             JSONObject body = new JSONObject();
             JSONArray subValues = new JSONArray();
-            System.out.println(value[0]);
             for (String s : value) {
-                System.out.println(s);
                 // true | false 값을 문자열이 아닌 bool 값으로 보내기 위해
                 if (s.equals("true") || s.equals("false")) {
                     subValues.add(Boolean.valueOf(s));
@@ -97,7 +95,8 @@ public class ControlSock {
             JSONObject header = (JSONObject) jsonObject.get("header");
             JSONObject body = (JSONObject) jsonObject.get("body");
 
-            if (!Boolean.valueOf(body.get("result").toString())) {
+            //!Boolean.valueOf(body.get("result").toString())
+            if (header.get("result").toString().equals("0")) {
                 System.out.println("Result of response message is false");
                 return FAIL_MESSAGE;
             }
@@ -106,7 +105,7 @@ public class ControlSock {
                 String operation = body.get("operation").toString();
 
                 if (operation.substring(0, 3).equals("SET")) {  // SET 이 앞에 붙은 operation 의 res body 값은 result 밖에 없음
-                    if (Boolean.valueOf(body.get("result").toString()))  return SUCCESS_MESSAGE;
+                    if (header.get("result").toString().equals("1"))  return SUCCESS_MESSAGE;
                     else    return FAIL_MESSAGE;
                 }
 

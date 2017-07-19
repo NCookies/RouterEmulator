@@ -1,4 +1,5 @@
 import com.ncookie.routercontroller.RouterController;
+import com.ncookie.routercontroller.IpSetter;
 import com.ncookie.network.ControlSock;
 
 import javax.swing.*;
@@ -15,9 +16,11 @@ public class Controller {
         Socket socket;
         ControlSock controlSock;
 
-        final String SERVER_IP = "127.0.0.1";
-
         try {
+//            final String SERVER_IP = "192.168.0.113";
+            final String SERVER_IP = "127.0.0.1";
+//            final String SERVER_IP = "192.168.0.111";
+
 
             System.out.println("서버에 연결중입니다. 서버 IP : " + SERVER_IP);
 

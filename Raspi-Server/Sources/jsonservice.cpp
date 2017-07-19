@@ -38,7 +38,6 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
     Json::Value res_body;
     Json::Value rep_body;
 
-    bool result;
     bool is_report = false;
     std::string operation = root["body"]["operation"].asString();
     std::string res_message;
@@ -52,7 +51,6 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
             Equipment::set_ap_power_state(power);
 
             res_body["operation"] = operation;
-            res_body["result"] = true;  // 에러가 생겼을 때 처리해야 함
 
             rep_body["operation"] = operation;
             rep_body["subValues"].append(power);
@@ -65,11 +63,9 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
         case GET_AP_POWER: {
             // AP 전원 상태 전송
             bool power = Equipment::get_ap_power_state();
-            result = true;
 
             res_body["operation"] = operation;
             res_body["subValues"].append(power);
-            res_body["result"] = result;
 
             rep_body["operation"] = operation;
 
@@ -85,7 +81,6 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
             Equipment::set_ap_settings(ssid, password);
 
             res_body["operation"] = operation;
-            res_body["result"] = true;
 
             rep_body["operation"] = operation;
             rep_body["subValues"].append(ssid);
@@ -100,12 +95,9 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
             // AP 설정(SSID, PASSWORD) 전송
             std::vector<std::string> settings = Equipment::get_ap_settings();
 
-            result = true;
-
             res_body["operation"] = operation;
             res_body["subValues"].append(settings[0]);
             res_body["subValues"].append(settings[1]);
-            res_body["result"] = result;
 
             rep_body["operation"] = operation;
 
@@ -113,7 +105,6 @@ bool JsonService::parse(char *json, char *res_buff, char *rep_buff, size_t *res_
         }
 
         default: {
-            res_body["result"] = false;
             break;
         }
     }
